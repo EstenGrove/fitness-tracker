@@ -1,7 +1,7 @@
 import sprite from "../assets/icons/calendar2.svg";
 import PageContainer from "../components/layout/PageContainer";
 import PageHeader from "../components/layout/PageHeader";
-import styles from "../css/pages/WorkoutHistoryPage.module.scss";
+import styles from "../css/pages/SettingsPage.module.scss";
 
 const Settings = () => {
 	return (
@@ -11,11 +11,11 @@ const Settings = () => {
 	);
 };
 
-const WorkoutHistoryPage = () => {
+const SettingsPage = () => {
 	return (
 		<PageContainer>
-			<div className={styles.WorkoutHistoryPage}>
-				<PageHeader title="History">
+			<div className={styles.SettingsPage}>
+				<PageHeader title="Settings">
 					<Settings />
 				</PageHeader>
 			</div>
@@ -23,4 +23,4 @@ const WorkoutHistoryPage = () => {
 	);
 };
 
-export default WorkoutHistoryPage;
+export default SettingsPage;

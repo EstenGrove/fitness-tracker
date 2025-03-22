@@ -43,9 +43,9 @@ const Navbar = () => {
 					</NavLink>
 				</li>
 				<li className={styles.Navbar_list_item}>
-					<NavLink to="profile/health" className={isActiveRoute} viewTransition>
+					<NavLink to="settings" className={isActiveRoute} viewTransition>
 						<svg className={styles.Navbar_list_item_icon}>
-							<use xlinkHref={`${sprite}#icon-user`}></use>
+							<use xlinkHref={`${sprite}#icon-settings`}></use>
 						</svg>
 					</NavLink>
 				</li>

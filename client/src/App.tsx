@@ -9,6 +9,8 @@ import NotFoundPage from "./pages/NotFoundPage.tsx";
 const Dashboard = lazy(() => import("./pages/DashboardPage.tsx"));
 const Medications = lazy(() => import("./pages/MedicationsPage.tsx"));
 const WorkoutHistory = lazy(() => import("./pages/WorkoutHistoryPage.tsx"));
+const Workouts = lazy(() => import("./pages/WorkoutsPage.tsx"));
+const Settings = lazy(() => import("./pages/SettingsPage.tsx"));
 
 function App() {
 	return (
@@ -39,6 +41,22 @@ function App() {
 								element={
 									<Suspense fallback={<Loader />}>
 										<WorkoutHistory />
+									</Suspense>
+								}
+							/>
+							<Route
+								path="workouts"
+								element={
+									<Suspense fallback={<Loader />}>
+										<Workouts />
+									</Suspense>
+								}
+							/>
+							<Route
+								path="settings"
+								element={
+									<Suspense fallback={<Loader />}>
+										<Settings />
 									</Suspense>
 								}
 							/>

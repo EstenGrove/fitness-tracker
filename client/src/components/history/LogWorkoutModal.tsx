@@ -1,11 +1,11 @@
 import { useState } from "react";
-import styles from "../../css/history/LogStretchWorkout.module.scss";
+import styles from "../../css/history/LogWorkoutModal.module.scss";
 import { useBackgroundBlur } from "../../hooks/useBackgroundBlur";
 import MultiStepModal, { StepItem } from "../shared/MultiStepModal";
 
 type Props = {};
 
-const LogStretchWorkout = ({}: Props) => {
+const LogWorkoutModal = ({}: Props) => {
 	useBackgroundBlur();
 
 	const steps: StepItem[] = [];
@@ -18,10 +18,10 @@ const LogStretchWorkout = ({}: Props) => {
 	};
 
 	return (
-		<div className={styles.LogStretchWorkout}>
+		<div className={styles.LogWorkoutModal}>
 			<MultiStepModal steps={steps} onClose={onClose} onSave={onSave} />
 		</div>
 	);
 };
 
-export default LogStretchWorkout;
+export default LogWorkoutModal;
