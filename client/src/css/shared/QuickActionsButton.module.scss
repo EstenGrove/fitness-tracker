@@ -1,0 +1,28 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.QuickActionsButton {
+	position: fixed;
+	display: block;
+	bottom: 8rem;
+	right: 1rem;
+	width: 3.5rem;
+	height: 3.5rem;
+	min-width: 3.5rem;
+	min-height: 3.5rem;
+	max-width: 3.5rem;
+	max-height: 3.5rem;
+	border-radius: 50%;
+	border: none;
+	outline: none;
+	background-color: rgba(0, 124, 255, 0.9);
+	@include rowCenter();
+	box-shadow: -3px -2px 52px -10px rgba(0, 0, 0, 0.5);
+
+	&_icon {
+		width: 2rem;
+		height: 2rem;
+		fill: #fff;
+	}
+}

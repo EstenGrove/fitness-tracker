@@ -53,6 +53,8 @@ const CURRENT_ENV = API_AUTH[CURRENT_ENV_KEY];
 
 const API_ENDPOINTS = {
 	user: {
+		login: "/user/login",
+		logout: "/user/logout",
 		getByLogin: "/user/getUserByLogin",
 		getByID: "/user/getUserByID",
 	},
@@ -97,6 +99,7 @@ export const {
 	workouts: workoutApis,
 	shared: sharedApis,
 	history: historyApis,
+	meds: medicationApis,
 	dashboard: dashboardApis,
 } = API_ENDPOINTS;
 

@@ -10,12 +10,23 @@ interface SetInfo {
 	sets: number;
 }
 
-type Props = {};
+type Props = {
+	onClose: () => void;
+};
 
 type SetEntryProps = {
 	setInfo: SetInfo;
 	// updateSet: (idx: number, newData: SetInfo) => void;
 	updateSet: () => void;
+};
+
+const SelectWorkoutStep = () => {
+	return (
+		<div className="SelectWorkoutStep">
+			{/*  */}
+			{/*  */}
+		</div>
+	);
 };
 
 const SetEntry = ({ setInfo, updateSet }: SetEntryProps) => {
@@ -71,15 +82,20 @@ const AddSetButton = ({ onClick }: { onClick: () => void }) => {
 	);
 };
 
-const LogStrengthWorkout = ({}: Props) => {
+const LogStrengthWorkout = ({ onClose }: Props) => {
 	useBackgroundBlur();
 	const [workoutSets, setWorkoutSets] = useState<SetInfo[]>([]);
 
-	const steps: StepItem[] = [];
+	const steps: StepItem[] = [
+		{
+			id: 1,
+			title: "Activity Type",
+			content: <div>Select Activity Type</div>,
+			next: 2,
+			validate: () => true,
+		},
+	];
 
-	const onClose = () => {
-		// do stuff
-	};
 	const onSave = () => {
 		// do stuff
 	};

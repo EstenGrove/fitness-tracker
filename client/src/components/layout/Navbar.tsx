@@ -9,13 +9,13 @@ const isActiveRoute = ({ isActive }: { isActive: boolean }) => {
 		return `${styles.Navbar_list_item}`;
 	}
 };
-//
+
 const Navbar = () => {
 	return (
 		<nav className={styles.Navbar}>
 			<ul className={styles.Navbar_list}>
 				<li className={styles.Navbar_list_item}>
-					<NavLink to="" className={isActiveRoute} viewTransition>
+					<NavLink to="/" className={isActiveRoute} viewTransition>
 						<svg className={styles.Navbar_list_item_icon}>
 							<use xlinkHref={`${sprite}#icon-dashboard-layout`}></use>
 						</svg>
@@ -46,6 +46,7 @@ const Navbar = () => {
 					<NavLink to="settings" className={isActiveRoute} viewTransition>
 						<svg className={styles.Navbar_list_item_icon}>
 							<use xlinkHref={`${sprite}#icon-settings`}></use>
+							{/* <use xlinkHref={`${sprite}#icon-dots-three-horizontal`}></use> */}
 						</svg>
 					</NavLink>
 				</li>

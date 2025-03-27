@@ -1,4 +1,12 @@
-import { ReactNode, useMemo, useRef, useState, useEffect } from "react";
+import {
+	ReactNode,
+	useMemo,
+	useRef,
+	useState,
+	useEffect,
+	RefObject,
+	JSX,
+} from "react";
 import sprite from "../../assets/icons/calendar2.svg";
 import styles from "../../css/shared/MultiStepModal.module.scss";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
@@ -62,10 +70,10 @@ const isFinalStep = (currentStep: StepItem, steps: StepItem[]): boolean => {
 };
 
 const MultiStepModal = ({ steps, onClose, onNext, onPrev, onSave }: Props) => {
-	const modalRef = useRef<HTMLDivElement>(null);
+	const modalRef = useRef<HTMLDivElement | undefined>(null);
 	useBackgroundBlur();
 	useLockBodyScroll();
-	useOutsideClick(modalRef, onClose);
+	useOutsideClick(modalRef as RefObject<HTMLDivElement>, onClose);
 	const [currentStepID, setCurrentStepID] = useState<number>(1);
 	const currentStep: StepItem = useMemo(() => {
 		const step = steps.find((item: StepItem) => item.id === currentStepID);
