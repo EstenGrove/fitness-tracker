@@ -1,0 +1,79 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.AllWorkoutsPage {
+	@include fill_container;
+
+	&_nav {
+		width: 100%;
+		padding: 1rem 2rem;
+		padding-bottom: 0;
+	}
+
+	&_header {
+		width: 100%;
+		height: auto;
+		padding: 0 2rem;
+		margin-top: -1rem;
+	}
+
+	&_main {
+		width: 100%;
+	}
+}
+
+.Header {
+	width: 100%;
+	height: auto;
+	font-family: "Noto Sans";
+	width: 100%;
+	padding: 1rem 0;
+	@include flex_row(space-between, center);
+
+	&_main {
+		width: max-content;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		margin-right: auto;
+
+		&_today {
+			font-size: 1.4rem;
+			color: $text2;
+			margin-right: auto;
+		}
+		&_label {
+			font-size: 3rem;
+			color: $text1;
+			margin-right: auto;
+		}
+
+		&_right {
+			width: max-content;
+			margin-left: auto;
+		}
+	}
+}
+
+.NewButton {
+	width: max-content;
+	height: 3rem;
+	padding: 0.5rem 1rem;
+	font-size: 1.5rem;
+	font-weight: 600;
+	background-color: $accentAltBG;
+	color: $accentAlt;
+	border-radius: 5rem;
+	outline: none;
+	border: none;
+	box-shadow: 6px 6px 59px -14px rgba(0, 0, 0, 0.5);
+	@include rowCenter();
+	gap: 0 0.5rem;
+
+	&_icon {
+		width: 1.5rem;
+		height: 1.5rem;
+		fill: $accentAlt;
+	}
+}

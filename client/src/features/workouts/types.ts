@@ -1,5 +1,7 @@
 import { Activity } from "../activity/types";
 
+export type WorkoutStatus = "COMPLETED" | "IN-PROGRESS" | "NOT-COMPLETE";
+
 // Workout Types & Activity Types
 // - Defines a given exercise for a given activity type.
 export interface WorkoutType {
@@ -22,7 +24,8 @@ export interface Workout {
 	tagColor: string | null;
 	startTime: string;
 	endTime: string;
-	equipment: string | null;
+	isRecurring: boolean;
+	status: WorkoutStatus;
 }
 // Workouts By Activity Type
 export interface StrengthWorkout extends Workout {

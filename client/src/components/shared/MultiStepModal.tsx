@@ -70,7 +70,7 @@ const isFinalStep = (currentStep: StepItem, steps: StepItem[]): boolean => {
 };
 
 const MultiStepModal = ({ steps, onClose, onNext, onPrev, onSave }: Props) => {
-	const modalRef = useRef<HTMLDivElement | undefined>(null);
+	const modalRef = useRef<HTMLDivElement>(null);
 	useBackgroundBlur();
 	useLockBodyScroll();
 	useOutsideClick(modalRef as RefObject<HTMLDivElement>, onClose);

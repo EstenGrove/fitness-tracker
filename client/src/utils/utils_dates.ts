@@ -537,6 +537,20 @@ const getDateRangeFromPreset = (preset: RangePreset) => {
 			};
 	}
 };
+
+// Custom Formats
+const getTodaysDate = (date?: Date | string) => {
+	if (!date) {
+		const now = new Date();
+		const today = format(now, "EEE, MMM do");
+
+		return today;
+	} else {
+		const today = format(date, "EEE, MMM do");
+		return today;
+	}
+};
+
 export {
 	MONTHS,
 	WEEK_DAYS,
@@ -567,4 +581,5 @@ export {
 	getRangeFromPreset,
 	// parsing & preparing utils
 	prepareTimestamp,
+	getTodaysDate,
 };

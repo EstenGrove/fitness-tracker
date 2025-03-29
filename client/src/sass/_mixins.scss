@@ -68,6 +68,7 @@
 	}
 
 	&_main {
+		position: relative;
 		@include fill_container;
 		padding: 1rem;
 	}

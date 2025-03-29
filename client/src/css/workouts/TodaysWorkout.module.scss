@@ -42,3 +42,20 @@
 		}
 	}
 }
+
+$size: 3rem;
+$icon: calc($size - 30%);
+
+.TypeBadge {
+	width: $size;
+	height: $size;
+	border-radius: 50%;
+	border: $borderLight;
+	@include rowCenter();
+
+	&_icon {
+		width: $icon;
+		height: $icon;
+		fill: #fff;
+	}
+}

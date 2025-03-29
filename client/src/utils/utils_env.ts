@@ -1,4 +1,5 @@
 const BASE_URL: string = import.meta.env.VITE_API_BASE;
+const PORT: number = 3002;
 
 const API_AUTH = {
 	development: {
@@ -40,7 +41,7 @@ const API_AUTH = {
 	ssl: {
 		assets: import.meta.env.VITE_SSL_API_ASSETS_URL,
 		// base: import.meta.env.VITE_SSL_API_BASE,
-		base: "https://192.168.0.44:3000/api/v1",
+		base: `https://192.168.0.44:${PORT}/api/v1`,
 		// base: "https://localhost:3000/api/v1",
 		user: import.meta.env.VITE_SSL_API_USER,
 		password: import.meta.env.VITE_SSL_API_USER_PASSWORD,
@@ -48,10 +49,13 @@ const API_AUTH = {
 	},
 };
 
-const CURRENT_ENV_KEY = "ssl";
+const CURRENT_ENV_KEY = "local";
 const CURRENT_ENV = API_AUTH[CURRENT_ENV_KEY];
 
 const API_ENDPOINTS = {
+	activity: {
+		getTypes: "/activity/getActivityTypes",
+	},
 	user: {
 		login: "/user/login",
 		logout: "/user/logout",
@@ -96,6 +100,7 @@ const API_ENDPOINTS = {
 
 export const {
 	user: userApis,
+	activity: activityApis,
 	workouts: workoutApis,
 	shared: sharedApis,
 	history: historyApis,

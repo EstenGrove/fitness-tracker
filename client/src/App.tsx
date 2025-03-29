@@ -1,13 +1,13 @@
-import { lazy, Suspense } from "react";
 import "./App.scss";
+import { lazy, Suspense } from "react";
+import { Provider } from "react-redux";
+import { store } from "./store/store.ts";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import Loader from "./components/layout/Loader";
 import LoginPage from "./pages/LoginPage.tsx";
 import DashboardLayout from "./components/layout/DashboardLayout.tsx";
 import NotFoundPage from "./pages/NotFoundPage.tsx";
-import { Provider } from "react-redux";
-import { store } from "./store/store.ts";
-import WorkoutWeekView from "./views/WorkoutWeekView.tsx";
+import AllWorkoutsPage from "./pages/AllWorkoutsPage.tsx";
 
 const Dashboard = lazy(() => import("./pages/DashboardPage.tsx"));
 const Workouts = lazy(() => import("./pages/WorkoutsPage.tsx"));
@@ -55,9 +55,8 @@ function App() {
 											<Workouts />
 										</Suspense>
 									}
-								>
-									<Route index element={<WorkoutWeekView />} />
-								</Route>
+								/>
+								<Route path="/workouts/all" element={<AllWorkoutsPage />} />
 								<Route
 									path="/settings"
 									element={

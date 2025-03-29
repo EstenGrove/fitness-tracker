@@ -5,7 +5,7 @@ import { TStatus } from "../../store/types";
 import { RootState } from "../../store/store";
 
 const fakeUser: CurrentUser = {
-	userID: "XXX-XXX-XXXXX",
+	userID: "e7aee10d-6f2b-4756-947a-31090dc7ab0e",
 	username: "estengrove99@gmail.com",
 	password: "1234",
 	firstName: "Steven",

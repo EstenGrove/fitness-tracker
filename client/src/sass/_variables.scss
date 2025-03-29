@@ -17,12 +17,19 @@ $accentBlue: var(--accent-blue);
 $accentYellow: var(--accent-yellow);
 $accentGreen: var(--accent-green);
 $accentRed: var(--accent-red);
+$accentAlt: var(--alt-accent);
 // Diff colors
 $increaseAccent: var(--increase-accent);
 $decreaseAccent: var(--decrease-accent);
 $inputBG: var(--bg200);
+$accentAltBG: rgba(255, 0, 91, 0.2);
 
 // PAIRED COLOR MAPS:
+
+$altMap: (
+	main: $accentAlt,
+	bg: rgba(255, 0, 91, 0.2),
+);
 
 $blueMap: (
 	main: $accentBlue,

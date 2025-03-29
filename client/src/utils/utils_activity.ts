@@ -1,4 +1,8 @@
 import { Activity, ActivityStyles } from "../features/activity/types";
+import { AsyncResponse } from "../features/types";
+import { currentEnv, activityApis } from "./utils_env";
+
+export type ActivityTypeResp = AsyncResponse<{ activityTypes: Activity[] }>;
 
 const ACTIVITIES: Activity[] = [
 	"Walk",
@@ -53,4 +57,16 @@ const getActivityStyles = (activityType: Activity) => {
 	}
 };
 
-export { ACTIVITY_STYLES, ACTIVITIES, getActivityStyles };
+const fetchActivityTypes = async (): ActivityTypeResp => {
+	const url = currentEnv.base + activityApis.getTypes;
+
+	try {
+		const request = await fetch(url);
+		const response = await request.json();
+		return response.Data;
+	} catch (error) {
+		return error;
+	}
+};
+
+export { fetchActivityTypes, ACTIVITY_STYLES, ACTIVITIES, getActivityStyles };

@@ -3,6 +3,7 @@ import sprite from "../../assets/icons/main.svg";
 import { Workout } from "../../features/workouts/types";
 import Loader from "../layout/Loader";
 import TodaysWorkout from "./TodaysWorkout";
+import { useNavigate } from "react-router";
 
 type Props = {
 	isLoading: boolean;
@@ -21,8 +22,13 @@ const NoWorkoutsFound = () => {
 };
 
 const TodaysWorkouts = ({ workouts = [], isLoading = false }: Props) => {
+	const navigate = useNavigate();
 	const noWorkouts: boolean = !workouts || !workouts.length;
 	const hasWorkouts: boolean = workouts && !!workouts.length;
+
+	const goToAll = () => {
+		navigate("all");
+	};
 
 	return (
 		<div className={styles.TodaysWorkouts}>
@@ -30,7 +36,12 @@ const TodaysWorkouts = ({ workouts = [], isLoading = false }: Props) => {
 				<h3 className={styles.TodaysWorkouts_heading_title}>
 					Today's Workouts
 				</h3>
-				<div className={styles.TodaysWorkouts_heading_showAll}>Show All</div>
+				<div
+					className={styles.TodaysWorkouts_heading_showAll}
+					onClick={goToAll}
+				>
+					Show All
+				</div>
 			</div>
 			<div className={styles.TodaysWorkouts_main}>
 				{isLoading ? (
@@ -41,9 +52,10 @@ const TodaysWorkouts = ({ workouts = [], isLoading = false }: Props) => {
 					<>
 						{noWorkouts && <NoWorkoutsFound />}
 						{hasWorkouts &&
-							workouts.map((workout) => (
-								<TodaysWorkout key={workout.workoutID} workout={workout} />
-							))}
+							workouts.map((workout) => {
+								const key = `${workout.activityType}-${workout.workoutID}`;
+								return <TodaysWorkout key={key} workout={workout} />;
+							})}
 					</>
 				)}
 			</div>

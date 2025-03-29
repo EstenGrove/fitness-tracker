@@ -6,6 +6,23 @@ export type Activity =
 	| "Timed"
 	| "Other";
 
+export interface ActivityTypeDB {
+	activity_id: number;
+	activity_type: Activity;
+	activity_desc: string;
+	activity_key: Uppercase<Activity>;
+	is_active: boolean;
+	created_date: string;
+}
+export interface ActivityTypeClient {
+	activityID: number;
+	activityType: Activity;
+	activityDesc: string;
+	activityKey: Uppercase<Activity>;
+	isActive: boolean;
+	createdDate: string;
+}
+
 export interface PillSummaryDB {
 	schedule_id: number;
 	total_pills: number;
@@ -353,4 +370,59 @@ export interface DashboardSummaryClient {
 	recentMins: RecentMinsClient[]; // weekly streak basically, for bar chart
 	recentWorkouts: WorkoutHistoryClient[];
 	weeklyStreak: StreakDayClient[];
+}
+
+export type WorkoutStatus = "COMPLETED" | "IN-PROGRESS" | "NOT-COMPLETE";
+
+export interface WorkoutTypeDB {
+	type_id: number;
+	type_name: string;
+	type_desc: string;
+	activity_id: number;
+	is_active: boolean;
+	created_date: string;
+}
+export interface WorkoutTypeClient {
+	typeID: number;
+	typeName: string;
+	typeDesc: string;
+	activityID: number;
+	isActive: boolean;
+	createdDate: string;
+}
+
+export interface WorkoutDB {
+	user_id: string;
+	workout_id: number;
+	workout_name: string;
+	workout_desc: string;
+	activity_type: Activity;
+	duration: number;
+	tag_color: string | null;
+	start_time: string;
+	end_time: string;
+	is_recurring: boolean;
+	status: WorkoutStatus;
+}
+export interface WorkoutClient {
+	userID: string;
+	workoutID: number;
+	workoutName: string;
+	activityType: Activity;
+	workoutDesc: string;
+	duration: number;
+	tagColor: string | null;
+	startTime: string;
+	endTime: string;
+	isRecurring: boolean;
+	status: WorkoutStatus;
+}
+
+export interface SharedDataDB {
+	activity_types: ActivityTypeDB[];
+	workout_types: WorkoutTypeDB[];
+}
+export interface SharedDataClient {
+	activityTypes: ActivityTypeClient[];
+	workoutTypes: WorkoutTypeClient[];
 }

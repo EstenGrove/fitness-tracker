@@ -9,6 +9,7 @@
 	--bg-body: rgb(234, 236, 239);
 	--main-accent: rgb(124, 58, 237);
 	--main-accent: #7c3aed;
+	--alt-accent: #ff005b;
 	/* --main-accent: #7c3aed; */
 	--accent-green: rgb(0, 226, 189);
 	/* --accent-green: #00e2bd; */
@@ -32,6 +33,7 @@
 	--greenBG: rgba(0, 226, 189, 0.3);
 	--pinkBG: rgba(255, 0, 102, 0.3);
 	--redBGAlt: rgba(255, 0, 91, 0.2);
+	--altAccentBG: rgba(255, 0, 91, 0.2);
 
 	/* background-image: */
 	--blueGradient: linear-gradient(

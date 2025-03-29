@@ -95,9 +95,6 @@
 	border-radius: 5rem;
 	border: none;
 	outline: none;
-	background-color: $accentBlue;
-	background-color: var(--blueBG);
-	background-color: rgba(0, 124, 255, 0.2);
 	@include rowCenter();
 	gap: 0 0.5rem;
 	box-shadow: -4px 5px 46px -19px rgba(0, 124, 255, 1);
@@ -108,10 +105,6 @@
 		$iconSize: 1.8rem;
 		width: $iconSize;
 		height: $iconSize;
-		// width: 2.3rem;
-		// height: 2.3rem;
-		fill: #fff;
-		fill: $accentBlue;
 		fill: #ff005b;
 	}
 }
