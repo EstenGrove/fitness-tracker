@@ -1,0 +1,25 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.WorkoutWeekView {
+	@include fill_container;
+
+	&_header {
+		width: 100%;
+		padding: 0 0;
+	}
+}
+
+@media only screen and (min-width: 800px) {
+	.WorkoutWeekView {
+		width: 100%;
+		@include colCenter();
+		padding: 2rem;
+		&_header {
+			padding: 1rem 10rem;
+			max-width: 100rem;
+			@include rowCenter();
+		}
+	}
+}

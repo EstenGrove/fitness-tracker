@@ -1,0 +1,235 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.IntervalTimer {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	z-index: 999;
+
+	&_screen {
+		@include fill_container;
+	}
+}
+
+@mixin colEnd() {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+@mixin screen() {
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	min-height: 50rem;
+	padding: 4rem 2rem;
+	@include colCenter();
+	// @include colEnd();
+	gap: 2rem;
+	font-size: 2.5rem;
+}
+
+.IdleScreen {
+	@include screen();
+}
+.CountdownScreen {
+	@include screen();
+	font-size: 5.5rem;
+
+	&_label {
+		color: $text3;
+	}
+	&_count {
+		color: $accentBlue;
+	}
+}
+
+.ActiveTimerScreen {
+	@include screen();
+
+	&_time {
+		font-size: 5rem;
+		font-weight: 600;
+		text-align: center;
+	}
+
+	&_controls {
+		width: 100%;
+		@include rowCenter();
+		gap: 0 1rem;
+	}
+}
+.EndedScreen {
+	@include screen();
+
+	&_time {
+		font-size: 5.5rem;
+		font-weight: 600;
+	}
+
+	&_title {
+		gap: 2rem;
+		font-size: 2.5rem;
+		margin-bottom: 3rem;
+	}
+
+	&_duration {
+		font-size: 1.8rem;
+		gap: 0;
+
+		& span:nth-child(even) {
+			color: var(--blueGrey600);
+		}
+	}
+}
+.ElapsedScreen {
+	@include screen();
+
+	&_time {
+		font-size: 5rem;
+		font-weight: 600;
+		text-align: center;
+	}
+
+	&_controls {
+		width: 100%;
+		@include rowCenter();
+		gap: 0 1rem;
+	}
+}
+
+.PauseButton {
+	width: 4rem;
+	height: 4rem;
+	border-radius: 1rem;
+	background-color: var(--blueGrey800);
+	background-color: $accentRed;
+	border: 1px solid var(--blueGrey800);
+	outline: none;
+	cursor: pointer;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	&_icon {
+		width: 2.5rem;
+		height: 2.5rem;
+		fill: #fff;
+	}
+
+	&:disabled {
+		cursor: pointer;
+		opacity: 0.4;
+	}
+}
+.StartButton {
+	padding: 0.5rem 2.5rem;
+	height: 4rem;
+	border-radius: 1rem;
+	border: none;
+	outline: none;
+	background-color: $accentBlue;
+	@include rowCenter();
+	gap: 0 0.2rem;
+	font-size: 1.6rem;
+	font-weight: 700;
+	color: $text1;
+	cursor: pointer;
+
+	&_icon {
+		width: 2.5rem;
+		height: 2.5rem;
+		fill: $text1;
+	}
+	&:disabled {
+		cursor: pointer;
+		opacity: 0.4;
+	}
+}
+.EndButton {
+	padding: 0.5rem 2.5rem;
+	height: 4rem;
+	border-radius: 1rem;
+	border: none;
+	outline: none;
+	background-color: var(--blueGrey800);
+	border: 1px solid var(--blueGrey800);
+	outline: none;
+	@include rowCenter();
+	gap: 0 0.2rem;
+	font-size: 1.6rem;
+	font-weight: 700;
+	color: $text1;
+	cursor: pointer;
+	&:hover {
+		cursor: pointer;
+		background-color: var(--blueGrey900);
+	}
+
+	&_icon {
+		width: 2.5rem;
+		height: 2.5rem;
+		fill: $text1;
+	}
+	&:disabled {
+		cursor: pointer;
+		opacity: 0.4;
+	}
+}
+.ResumeButton {
+	width: 4rem;
+	height: 4rem;
+	border-radius: 1rem;
+	border: none;
+	outline: none;
+	background-color: $accentBlue;
+	@include rowCenter();
+	gap: 0 0.2rem;
+	font-size: 1.6rem;
+	font-weight: 700;
+	color: #fff;
+	cursor: pointer;
+
+	&_icon {
+		width: 2.5rem;
+		height: 2.5rem;
+		fill: $text1;
+	}
+	&:disabled {
+		cursor: pointer;
+		opacity: 0.4;
+	}
+}
+.ResetButton {
+	padding: 0.5rem 1.8rem;
+	height: 4rem;
+	border-radius: 5rem;
+	border: $borderLight;
+	outline: none;
+	background-color: transparent;
+	@include rowCenter();
+	gap: 0 1rem;
+	font-size: 1.6rem;
+	font-weight: 700;
+	margin-top: 2rem;
+	color: $text3;
+	cursor: pointer;
+	&:hover {
+		cursor: pointer;
+		border-color: $accentBlue;
+		color: $accentBlue;
+	}
+	&:hover &_icon {
+		fill: $accentBlue;
+	}
+
+	&_icon {
+		width: 1.6rem;
+		height: 1.6rem;
+		fill: $text3;
+	}
+}

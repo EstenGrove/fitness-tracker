@@ -1,0 +1,13 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.MedicationsPage {
+	width: 100%;
+	height: auto;
+
+	&_header {
+		width: 100%;
+		padding: 1rem 2rem;
+	}
+}

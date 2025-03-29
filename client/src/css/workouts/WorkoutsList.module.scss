@@ -1,0 +1,13 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.WorkoutsList {
+	width: 100%;
+
+	&_inner {
+		width: 100%;
+		@include colCenter();
+		gap: 0.7rem 0;
+	}
+}

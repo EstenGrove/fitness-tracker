@@ -1,35 +1,81 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.scss";
+import { lazy, Suspense } from "react";
+import { Provider } from "react-redux";
+import { store } from "./store/store.ts";
+import { Route, BrowserRouter as Router, Routes } from "react-router";
+import Loader from "./components/layout/Loader";
+import LoginPage from "./pages/LoginPage.tsx";
+import DashboardLayout from "./components/layout/DashboardLayout.tsx";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
+import AllWorkoutsPage from "./pages/AllWorkoutsPage.tsx";
+
+const Dashboard = lazy(() => import("./pages/DashboardPage.tsx"));
+const Workouts = lazy(() => import("./pages/WorkoutsPage.tsx"));
+const WorkoutHistory = lazy(() => import("./pages/WorkoutHistoryPage.tsx"));
+const Medications = lazy(() => import("./pages/MedicationsPage.tsx"));
+const Settings = lazy(() => import("./pages/SettingsPage.tsx"));
 
 function App() {
-  const [count, setCount] = useState(0)
+	return (
+		<Provider store={store}>
+			<Router>
+				<div className="App">
+					<div className="App_main">
+						<Routes>
+							{/* MAIN APP/AUTH ROUTES */}
+							<Route
+								path="/"
+								element={
+									<Suspense fallback={<Loader />}>
+										<DashboardLayout />
+									</Suspense>
+								}
+							>
+								<Route index element={<Dashboard />} />
+								<Route
+									path="/meds"
+									element={
+										<Suspense fallback={<Loader />}>
+											<Medications />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="/history"
+									element={
+										<Suspense fallback={<Loader />}>
+											<WorkoutHistory />
+										</Suspense>
+									}
+								/>
+								<Route
+									path="workouts"
+									element={
+										<Suspense fallback={<Loader />}>
+											<Workouts />
+										</Suspense>
+									}
+								/>
+								<Route path="/workouts/all" element={<AllWorkoutsPage />} />
+								<Route
+									path="/settings"
+									element={
+										<Suspense fallback={<Loader />}>
+											<Settings />
+										</Suspense>
+									}
+								/>
+							</Route>
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+							{/* TOP LEVEL ROUTES */}
+							<Route path="/login" element={<LoginPage />} />
+							<Route path="*" element={<NotFoundPage />} />
+						</Routes>
+					</div>
+				</div>
+			</Router>
+		</Provider>
+	);
 }
 
-export default App
+export default App;

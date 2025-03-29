@@ -1,0 +1,13 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.SettingsPage {
+	@include fill_container;
+}
+
+.Settings {
+	width: 2.5rem;
+	height: 2.5rem;
+	fill: $text3;
+}
