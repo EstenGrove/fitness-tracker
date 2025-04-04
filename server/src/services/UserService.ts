@@ -29,6 +29,23 @@ class UserService {
 		this.#db = db;
 	}
 
+	// Updates users record for 'lastLoginDate' and creates a new session record.
+	async loginUser(token: string, username: string, password: string) {
+		try {
+			const query = `SELECT * FROM login_user(
+				$1,
+				$2,
+				$3
+			)`;
+			const results = await this.#db.query(query, [token, username, password]);
+			const rows = results?.rows?.[0];
+
+			return rows;
+		} catch (error) {
+			return error;
+		}
+	}
+
 	async getUserByID(userID: string): Promise<UserDB | unknown> {
 		try {
 			const query = `SELECT * FROM users WHERE user_id = $1`;

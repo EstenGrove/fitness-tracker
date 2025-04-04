@@ -20,9 +20,11 @@ app.get("/", (c) => {
 	return c.text("Hello Hono!");
 });
 
+app.route("user", allRoutes.user);
 app.route("shared", allRoutes.shared);
 app.route("activity", allRoutes.activity);
 app.route("workouts", allRoutes.workouts);
+app.route("dashboard", allRoutes.dashboard);
 
 serve({
 	fetch: app.fetch,

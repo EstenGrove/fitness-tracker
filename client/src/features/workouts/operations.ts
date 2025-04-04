@@ -1,7 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchUserWorkoutsForDate } from "../../utils/utils_workouts";
+import {
+	endActiveWorkout,
+	fetchActiveWorkout,
+	fetchSelectedWorkout,
+	fetchTodaysWorkouts,
+	fetchUserWorkoutsForDate,
+	SelectedWorkout,
+} from "../../utils/utils_workouts";
 import { AwaitedResponse } from "../types";
-import { Workout } from "./types";
+import { TodaysWorkout, Workout } from "./types";
+import { Activity } from "../activity/types";
 
 export interface UserDateParams {
 	userID: string;
@@ -22,4 +30,62 @@ const getUserWorkoutsByDate = createAsyncThunk(
 	}
 );
 
-export { getUserWorkoutsByDate };
+export interface SelectedParams {
+	userID: string;
+	workoutID: number;
+	activityType: Activity;
+}
+
+const getSelectedWorkout = createAsyncThunk(
+	"workouts/getSelectedWorkout",
+	async (params: SelectedParams) => {
+		const { userID, workoutID, activityType } = params;
+		const response = (await fetchSelectedWorkout(
+			userID,
+			workoutID,
+			activityType
+		)) as AwaitedResponse<SelectedWorkout>;
+		const data = response.Data as SelectedWorkout;
+		console.log("response.Data", response.Data);
+		return data as SelectedWorkout;
+	}
+);
+const getActiveWorkout = createAsyncThunk(
+	"workouts/getActiveWorkout",
+	async (params: SelectedParams) => {
+		const { userID, workoutID, activityType } = params;
+		const response = (await fetchActiveWorkout(
+			userID,
+			workoutID,
+			activityType
+		)) as AwaitedResponse<SelectedWorkout>;
+		const data = response.Data as SelectedWorkout;
+		console.log("response.Data", response.Data);
+		return data as SelectedWorkout;
+	}
+);
+
+const getTodaysWorkouts = createAsyncThunk(
+	"workouts/getTodaysWorkouts",
+	async (params: UserDateParams) => {
+		const { userID, targetDate } = params;
+		const response = (await fetchTodaysWorkouts(
+			userID,
+			targetDate
+		)) as AwaitedResponse<{ workouts: TodaysWorkout[] }>;
+		const data = response.Data;
+
+		return data.workouts as TodaysWorkout[];
+	}
+);
+
+const endWorkout = createAsyncThunk("workouts/endWorkout", async (params) => {
+	const response = await endActiveWorkout(params);
+});
+
+export {
+	getUserWorkoutsByDate,
+	getSelectedWorkout,
+	getTodaysWorkouts,
+	getActiveWorkout,
+};

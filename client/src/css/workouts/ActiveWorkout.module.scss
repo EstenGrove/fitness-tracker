@@ -1,0 +1,25 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.ActiveWorkout {
+	width: 100%;
+
+	&_header {
+		width: 100%;
+		margin-bottom: 2rem;
+	}
+}
+
+.Header {
+	width: 100%;
+	height: auto;
+	padding: 1rem 0;
+	@include colCenter();
+	font-size: 1.8rem;
+
+	&_duration {
+		color: $text3;
+		padding-left: 2.5rem;
+	}
+}

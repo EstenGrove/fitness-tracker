@@ -1,3 +1,23 @@
+export type Effort =
+	| "Easy"
+	| "Moderate"
+	| "Hard"
+	| "Strenuous"
+	| "All Out"
+	| "None";
+
+export type RepeatType = "Daily" | "Weekly" | "Monthly" | "Yearly" | "None";
+
+export type WeekDay =
+	| "Sunday"
+	| "Monday"
+	| "Tuesday"
+	| "Wednesday"
+	| "Thursday"
+	| "Friday"
+	| "Saturday";
+export type WeekDayToken = "Su" | "Mo" | "Tu" | "We" | "Th" | "Fr" | "Sa";
+
 export type Activity =
 	| "Walk"
 	| "Strength"
@@ -152,39 +172,6 @@ export interface MedInfoClient {
 	scheduleDose: number;
 	scheduleFrequency: string;
 	scheduleAmount: number;
-}
-
-export interface WorkoutHistoryDB {
-	history_id: number;
-	workout_id: number;
-	activity_type: Activity;
-	workout_name: string;
-	workout_date: string;
-	recorded_effort: string;
-	target_mins: number;
-	recorded_mins: number;
-	recorded_weight: number;
-	recorded_reps: number;
-	recorded_steps: number;
-	recorded_miles: number;
-	start_time: string;
-	end_time: string;
-}
-export interface WorkoutHistoryClient {
-	historyID: number;
-	activityType: Activity;
-	workoutID: number;
-	workoutDate: string;
-	workoutName: string;
-	startTime: string;
-	endTime: string;
-	targetMins: number;
-	recordedEffort: string;
-	recordedMins: number;
-	recordedWeight: number;
-	recordedReps: number;
-	recordedSteps: number;
-	recordedMiles: number;
 }
 
 export interface DateRange {
@@ -418,6 +405,119 @@ export interface WorkoutClient {
 	status: WorkoutStatus;
 }
 
+export interface StrengthWorkout extends WorkoutDB {
+	sets: number;
+	reps: number;
+	weight: number;
+}
+export interface WalkWorkout extends WorkoutDB {
+	steps: number;
+	miles: number;
+	pace: number;
+}
+export interface StretchWorkout extends WorkoutDB {
+	exercise: number;
+	reps: number;
+}
+export interface CardioWorkout extends WorkoutDB {
+	exercise: number;
+	reps: number;
+}
+export interface TimedWorkout extends WorkoutDB {
+	exercise: number;
+	reps?: number;
+}
+export interface OtherWorkout extends WorkoutDB {
+	exercise: number;
+	reps?: number;
+}
+export interface StrengthWorkoutClient extends WorkoutDB {
+	sets: number;
+	reps: number;
+	weight: number;
+}
+export interface WalkWorkoutClient extends WorkoutDB {
+	steps: number;
+	miles: number;
+	pace: number;
+}
+export interface StretchWorkoutClient extends WorkoutDB {
+	exercise: number;
+	reps: number;
+}
+export interface CardioWorkoutClient extends WorkoutDB {
+	exercise: number;
+	reps: number;
+}
+export interface TimedWorkoutClient extends WorkoutDB {
+	exercise: number;
+}
+export interface OtherWorkoutClient extends WorkoutDB {
+	exercise: number;
+}
+
+export type WorkoutDetailsDB =
+	| StretchWorkout
+	| StrengthWorkout
+	| WalkWorkout
+	| CardioWorkout
+	| TimedWorkout
+	| OtherWorkout;
+
+export type WorkoutDetailsClient =
+	| StretchWorkoutClient
+	| StrengthWorkoutClient
+	| WalkWorkoutClient
+	| CardioWorkoutClient
+	| TimedWorkoutClient
+	| OtherWorkoutClient;
+
+export interface StrengthSet {
+	id: number;
+	sets: number;
+	reps: number;
+	weight: number;
+}
+
+export interface WorkoutScheduleDB {
+	schedule_id: number;
+	activity_type: Activity;
+	workout_id: number;
+	start_date: string;
+	end_date: string;
+	start_time: string;
+	end_time: string;
+	interval: number;
+	frequency: RepeatType;
+	by_day: WeekDayToken[];
+	by_month: number | null;
+	by_month_day: number | null;
+	is_active: boolean;
+	created_date: string;
+}
+export interface WorkoutScheduleClient {
+	scheduleID: number;
+	activityType: Activity;
+	workoutID: number;
+	startDate: string;
+	endDate: string;
+	startTime: string;
+	endTime: string;
+	interval: number;
+	frequency: RepeatType;
+	byDay: WeekDayToken[];
+	byMonth: number | null;
+	byMonthDay: number | null;
+	isActive: boolean;
+	createdDate: string;
+}
+
+export interface SelectedWorkoutDetailsDB {
+	workout: WorkoutDetailsDB;
+	schedule: WorkoutScheduleDB;
+	history: WorkoutHistoryDB[];
+}
+
 export interface SharedDataDB {
 	activity_types: ActivityTypeDB[];
 	workout_types: WorkoutTypeDB[];
@@ -425,4 +525,62 @@ export interface SharedDataDB {
 export interface SharedDataClient {
 	activityTypes: ActivityTypeClient[];
 	workoutTypes: WorkoutTypeClient[];
+}
+
+export interface WorkoutHistoryItemDB {
+	user_id: string;
+	history_id: number;
+	workout_id: number;
+	workout_name: string;
+	workout_date: string;
+	start_time: string;
+	end_time: string;
+	duration: number;
+	effort: Effort;
+	created_date: string;
+}
+export interface WorkoutHistoryItemClient {
+	userID: string;
+	historyID: number;
+	workoutID: number;
+	workoutName: string;
+	workoutDate: string;
+	startTime: string;
+	endTime: string;
+	duration: number;
+	effort: Effort;
+	createdDate: string;
+}
+
+export interface WorkoutHistoryDB {
+	history_id: number;
+	workout_id: number;
+	activity_type: Activity;
+	workout_name: string;
+	workout_date: string;
+	recorded_effort: string;
+	target_mins: number;
+	recorded_mins: number;
+	recorded_weight: number;
+	recorded_reps: number;
+	recorded_steps: number;
+	recorded_miles: number;
+	start_time: string;
+	end_time: string;
+}
+export interface WorkoutHistoryClient {
+	historyID: number;
+	activityType: Activity;
+	workoutID: number;
+	workoutDate: string;
+	workoutName: string;
+	startTime: string;
+	endTime: string;
+	targetMins: number;
+	recordedEffort: string;
+	recordedMins: number;
+	recordedWeight: number;
+	recordedReps: number;
+	recordedSteps: number;
+	recordedMiles: number;
 }

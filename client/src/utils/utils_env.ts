@@ -74,6 +74,10 @@ const API_ENDPOINTS = {
 		getWorkoutHistory: "/workouts/getWorkoutHistory",
 		getWorkoutsAndRelated: "/workouts/getWorkoutsAndRelated",
 		getWorkoutSummaryByDate: "/workouts/getWorkoutSummaryByDate",
+		getSelectedWorkout: "/workouts/getSelectedWorkout",
+		getActiveWorkout: "/workouts/getActiveWorkout",
+		getTodaysWorkouts: "/workouts/getTodaysWorkouts",
+		endWorkout: "/workouts/endWorkout",
 	},
 	history: {
 		getByID: "/history/getWorkoutHistoryByID",

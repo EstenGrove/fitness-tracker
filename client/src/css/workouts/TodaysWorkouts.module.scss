@@ -27,7 +27,10 @@
 	}
 	&_main {
 		width: 100%;
-		padding: 4rem 2rem;
+		padding: 4rem 0;
+		padding-top: 1rem;
+		@include colCenter();
+		gap: 0.5rem 0;
 	}
 }
 

@@ -1,0 +1,29 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.WorkoutSummary {
+	width: 100%;
+
+	&_header {
+		width: 100%;
+		@include flex_row(flex-start, center);
+		gap: 0 1rem;
+
+		&_name {
+			font-size: 1.5rem;
+		}
+		&_about {
+			font-size: 1.4rem;
+		}
+	}
+	&_main {
+		width: 100%;
+		padding: 1rem 2rem;
+		font-size: 1.5rem;
+
+		& b {
+			color: $accentBlue;
+		}
+	}
+}

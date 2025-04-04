@@ -1,0 +1,70 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.LogStrengthWorkout {
+	width: 100%;
+	font-size: 1.5rem;
+	padding: 0 1rem;
+
+	&_title {
+		font-size: 2rem;
+		font-weight: 700;
+	}
+}
+
+.SetEntry {
+	width: 100%;
+	&_title {
+		width: auto;
+		display: block;
+		margin: 1rem 0;
+	}
+
+	&_fields {
+		width: 100%;
+		@include flex_row(flex-start, center);
+	}
+
+	&_item {
+		width: max-content;
+		color: $text2;
+		padding-left: 1rem;
+		margin-bottom: 1rem;
+
+		&_input {
+			width: 5rem;
+			height: 3rem;
+			color: #fff;
+			padding-left: 0.5rem;
+			border-radius: 0.5rem;
+			background-color: $foreground;
+			outline: none;
+			border: $borderLight;
+			font-size: 1.6rem;
+			user-select: none;
+		}
+	}
+}
+
+.Summary {
+	width: 100%;
+	margin-bottom: 2rem;
+
+	&_type {
+		width: 100%;
+		@include flex_row(flex-start, center);
+		gap: 0 1rem;
+		font-size: 2rem;
+		font-weight: 700;
+		margin-bottom: 2rem;
+	}
+
+	&_time {
+		font-size: 1.6rem;
+
+		& b {
+			color: $accentBlue;
+		}
+	}
+}

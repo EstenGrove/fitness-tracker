@@ -2,7 +2,11 @@ import { useMemo, useState } from "react";
 import sprite from "../../assets/icons/main2.svg";
 import styles from "../../css/timer/WorkoutTimer.module.scss";
 import { useCountdown } from "../../hooks/useCountdown";
-import { TimeInfo, useWorkoutTimer } from "../../hooks/useWorkoutTimer";
+import {
+	TimeInfo,
+	TimeInfoAndDuration,
+	useWorkoutTimer,
+} from "../../hooks/useWorkoutTimer";
 import { addEllipsis } from "../../utils/utils_misc";
 import {
 	differenceInHours,
@@ -13,6 +17,8 @@ import { formatDateTime, formatTime } from "../../utils/utils_dates";
 
 type Props = {
 	title: string;
+	onStart?: (info: TimeInfoAndDuration) => void;
+	onEnd?: (info: TimeInfoAndDuration) => void;
 };
 type IdleScreenProps = {
 	title: string;
@@ -29,10 +35,6 @@ type BtnProps = {
 	onClick: () => void;
 };
 
-// Used when using a 'count-up interval'
-const getPercentForElapsed = (elapsed: number, totalSecs: number) => {
-	return (elapsed / totalSecs) * 100;
-};
 const formatDisplayTime = (timeInSecs: number) => {
 	const rawMins = Math.floor(timeInSecs / 60);
 	const rawSecs = timeInSecs % 60;
@@ -201,18 +203,24 @@ const EndedScreen = ({ title, time, info, onReset }: EndedProps) => {
 
 const countOff = 5;
 
-const WorkoutTimer = ({ title }: Props) => {
+const WorkoutTimer = ({ title, onStart, onEnd }: Props) => {
 	const [screen, setScreen] = useState<TimerScreen>(ETimerScreen.IDLE);
 	const countdown = useCountdown(countOff, () => {
 		// start timer when countdown ends
 		setScreen(ETimerScreen.TIMER);
 		workoutTimer.start();
 	});
-	const workoutTimer = useWorkoutTimer();
+	const workoutTimer = useWorkoutTimer({
+		onStart(info) {
+			return onStart && onStart(info);
+		},
+		onEnd(info) {
+			return onEnd && onEnd(info);
+		},
+	});
 	const { info, timer } = workoutTimer;
 	const displayTime = useMemo(() => {
 		return formatDisplayTime(timer);
-		// return timerToDisplayTime(timer);
 	}, [timer]);
 
 	// Starts countdown, then timer after countdown ends

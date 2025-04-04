@@ -1,6 +1,11 @@
-// Custom Shapes
-
 import { Activity } from "../activity/types";
+
+export interface StreakDay {
+	date: Date | string;
+	mins: number;
+	goal: number;
+	weekDay: string;
+}
 
 export interface RecentWorkout {
 	historyID: number;
@@ -28,4 +33,13 @@ export interface RecentStepsByDate {
 export interface RecentCaloriesByDate {
 	date: string;
 	calories: number;
+}
+
+export interface DashboardSummary {
+	recentSteps: number; // steps for a given date
+	recentCalories: number; // calories for given date
+	recentWorkoutCount: number; // workouts for given date
+	recentMins: WeeklyMinsByDate[]; // weekly streak basically, for bar chart
+	recentWorkouts: RecentWorkout[];
+	weeklyStreak: StreakDay[];
 }

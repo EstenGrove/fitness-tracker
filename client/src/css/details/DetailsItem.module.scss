@@ -1,0 +1,31 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.DetailsItem {
+	width: max-content;
+	height: max-content;
+	@include flex_row(flex-start, center);
+	font-size: 1.6rem;
+	margin-bottom: 1rem;
+	color: $text3;
+	gap: 0 0.5rem;
+
+	&_item {
+		width: max-content;
+		height: max-content;
+		@include flex_row(flex-start, center);
+
+		&_icon {
+			width: 1.8rem;
+			height: 1.8rem;
+			fill: $text2;
+			margin-right: 0.8rem;
+		}
+	}
+	&_main {
+		width: max-content;
+		@include flex_row(flex-start, center);
+		color: $text1;
+	}
+}

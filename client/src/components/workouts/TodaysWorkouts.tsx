@@ -1,13 +1,13 @@
 import styles from "../../css/workouts/TodaysWorkouts.module.scss";
 import sprite from "../../assets/icons/main.svg";
-import { Workout } from "../../features/workouts/types";
+import { useNavigate } from "react-router";
+import type { TodaysWorkout as ITodaysWorkout } from "../../features/workouts/types";
 import Loader from "../layout/Loader";
 import TodaysWorkout from "./TodaysWorkout";
-import { useNavigate } from "react-router";
 
 type Props = {
 	isLoading: boolean;
-	workouts: Workout[];
+	workouts: ITodaysWorkout[];
 };
 
 const NoWorkoutsFound = () => {

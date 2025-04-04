@@ -59,9 +59,6 @@ const isAllSelected = (
 	const allSelected =
 		selectedFilters.length > 0 && allFilters.length === selectedFilters.length;
 
-	console.log("noSelections", noSelections);
-	console.log("allSelected", allSelected);
-
 	return noSelections || allSelected;
 };
 
@@ -153,7 +150,6 @@ const sortAndFilter = (
 const AllWorkouts = ({ workouts, activityTypes }: Props) => {
 	const [search, setSearch] = useState<string>("");
 	const [filters, setFilters] = useState<FilterType[]>([]);
-	// const [userWorkouts, setUserWorkouts] = useState<Workout[]>(workouts);
 	const allFilters: FilterType[] = useMemo(() => {
 		if (!activityTypes || !activityTypes.length) return [];
 		const asFilters: FilterType[] = activityTypes.map(

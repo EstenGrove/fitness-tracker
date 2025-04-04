@@ -16,11 +16,15 @@ export interface TimeInfo {
 	resumedAt: string | null;
 	endedAt: string | null;
 }
+
+export interface TimeInfoAndDuration extends TimeInfo {
+	totalTime: string | null;
+}
 interface HookParams {
-	onStart?: (info: TimeInfo) => void;
-	onPause?: (info: TimeInfo) => void;
-	onResume?: (info: TimeInfo) => void;
-	onEnd?: (info: TimeInfo) => void;
+	onStart?: (info: TimeInfoAndDuration) => void;
+	onPause?: (info: TimeInfoAndDuration) => void;
+	onResume?: (info: TimeInfoAndDuration) => void;
+	onEnd?: (info: TimeInfoAndDuration) => void;
 	onReset?: () => void;
 }
 
@@ -49,7 +53,7 @@ const useWorkoutTimer = (params: HookParams = {}) => {
 		setStatus(TimeStatus.ACTIVE);
 		setTimeInfo(newInfo);
 
-		return onStart && onStart(newInfo);
+		return onStart && onStart({ ...newInfo, totalTime: null });
 	};
 	const pause = () => {
 		const time = getTimestamp();
@@ -59,7 +63,7 @@ const useWorkoutTimer = (params: HookParams = {}) => {
 		setStatus(TimeStatus.PAUSED);
 		setTimeInfo(newInfo);
 
-		return onPause && onPause(newInfo);
+		return onPause && onPause({ ...newInfo, totalTime: null });
 	};
 	const resume = () => {
 		const time = getTimestamp();
@@ -69,7 +73,7 @@ const useWorkoutTimer = (params: HookParams = {}) => {
 		setStatus(TimeStatus.ACTIVE);
 		setTimeInfo(newInfo);
 
-		return onResume && onResume(newInfo);
+		return onResume && onResume({ ...newInfo, totalTime: null });
 	};
 	const end = () => {
 		const time = getTimestamp();
@@ -79,7 +83,13 @@ const useWorkoutTimer = (params: HookParams = {}) => {
 		setStatus(TimeStatus.ENDED);
 		setTimeInfo(newInfo);
 
-		return onEnd && onEnd(newInfo);
+		return (
+			onEnd &&
+			onEnd({
+				...newInfo,
+				totalTime: timer.time,
+			})
+		);
 	};
 
 	const reset = () => {

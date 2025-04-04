@@ -18,6 +18,7 @@ import {
 	subQuarters,
 	subWeeks,
 	subDays,
+	isValid,
 } from "date-fns";
 import { RepeatType } from "./utils_recurring";
 
@@ -29,6 +30,7 @@ export type WeekDay =
 	| "Thursday"
 	| "Friday"
 	| "Saturday";
+export type WeekDayToken = "Su" | "Mo" | "Tu" | "We" | "Th" | "Fr" | "Sa";
 
 export type RangePreset =
 	| "Today"
@@ -213,8 +215,9 @@ const formatDate = (
 	formatToken: keyof DateFormats["date"] = "long"
 ): string => {
 	if (!date) return "";
+	const base = new Date(date);
 	const token = DATE_TOKENS[formatToken];
-	const formatted = format(date, token);
+	const formatted = format(base, token);
 
 	return formatted;
 };
@@ -261,6 +264,19 @@ const parseDate = (
 	return parsed;
 };
 
+const parseAnyDate = (dateStr: string) => {
+	const tokens = Object.keys(DATE_TOKENS);
+
+	for (const token of tokens) {
+		const cleanToken = token.replace(",", "");
+		const parsed = parse(dateStr, cleanToken, new Date());
+		if (!isNaN(parsed.getDate())) {
+			return parsed;
+		}
+	}
+	return dateStr;
+};
+
 // Parses => '2024-11-22' & converts to a real date w/ a given format
 const parseDateTime = (
 	dateStr: string,
@@ -302,6 +318,27 @@ const parseTime = (
 	const parsed = parse(timeStr, token, baseDate);
 
 	return parsed;
+};
+
+const parseAnyTime = (timeStr: string) => {
+	const baseDate: Date = new Date();
+	const options = [
+		"HH:mm", // military
+		"hh:mm", // 12 hour
+		"hh:mm a", // 12 hour w/ time-of-day
+		"hh:mm:ss", // 12 hour w/ secs
+		"HH:mm:ss", // military w/ secs
+		"HH:mm:ss a", // military w/ secs & time-of-day
+		"hh:mm:ss a", // 12 hour w/ secs & time-of-day
+	];
+
+	for (const option of options) {
+		const parsed = parse(timeStr, option, baseDate);
+		if (!isNaN(parsed.getTime())) {
+			return parsed;
+		}
+	}
+	return timeStr;
 };
 
 const getDistanceToNow = (date: Date | string) => {
@@ -568,7 +605,9 @@ export {
 	formatCustomDate,
 	parseDateTime,
 	parseTime,
+	parseAnyTime,
 	parseDate,
+	parseAnyDate,
 	toBackendFormat,
 	fromBackendFormat,
 	applyTimeStrToDate,

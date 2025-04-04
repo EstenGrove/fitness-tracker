@@ -4,9 +4,9 @@ import {
 	endOfWeek,
 	getDate,
 	getDay,
+	parse,
 	startOfWeek,
 } from "date-fns";
-import { formatDate } from "../../utils/utils_dates";
 
 type Props = {
 	baseDate: string;
@@ -16,7 +16,7 @@ type Props = {
 
 const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"] as const;
 
-const getDaysInWeek = (date: string): Date[] => {
+const getDaysInWeek = (date: Date | string): Date[] => {
 	const daysInWeek: Date[] = eachDayOfInterval({
 		start: startOfWeek(date),
 		end: endOfWeek(date),
@@ -73,20 +73,22 @@ const isSelectedDate = (
 	selectedDate: Date | string,
 	weekDate: Date | string
 ): boolean => {
-	const selected = formatDate(selectedDate, "db");
-	const day = formatDate(weekDate, "db");
+	const base = selectedDate.toString();
+	const parsed = parse(base, "MM-dd-yyyy", new Date());
+	const selected = getDate(parsed);
+	const date = getDate(weekDate);
 
-	return selected === day;
+	return selected === date;
 };
 
 const WeeklyHeader = ({ baseDate, onSelect, selectedDate }: Props) => {
-	const daysInWeek = getDaysInWeek(baseDate);
+	const daysInWeek: Date[] = getDaysInWeek(baseDate);
 
 	return (
 		<div className={styles.WeeklyHeader}>
 			<div className={styles.WeeklyHeader_week}>
 				{daysInWeek &&
-					daysInWeek.map((day, idx) => (
+					daysInWeek.map((day: Date, idx: number) => (
 						<WeekDay
 							key={getDay(day)}
 							weekDate={day}

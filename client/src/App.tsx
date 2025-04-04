@@ -14,6 +14,7 @@ const Workouts = lazy(() => import("./pages/WorkoutsPage.tsx"));
 const WorkoutHistory = lazy(() => import("./pages/WorkoutHistoryPage.tsx"));
 const Medications = lazy(() => import("./pages/MedicationsPage.tsx"));
 const Settings = lazy(() => import("./pages/SettingsPage.tsx"));
+const ActiveWorkout = lazy(() => import("./pages/ActiveWorkoutPage.tsx"));
 
 function App() {
 	return (
@@ -57,6 +58,7 @@ function App() {
 									}
 								/>
 								<Route path="/workouts/all" element={<AllWorkoutsPage />} />
+								<Route path="/active/:id" element={<ActiveWorkout />} />
 								<Route
 									path="/settings"
 									element={

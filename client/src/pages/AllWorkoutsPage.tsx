@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import sprite from "../assets/icons/dashboard.svg";
 import styles from "../css/pages/AllWorkoutsPage.module.scss";
 import { getTodaysDate } from "../utils/utils_dates";
@@ -33,7 +33,6 @@ const NewButton = ({ onClick }: { onClick: () => void }) => {
 		<button type="button" onClick={onClick} className={styles.NewButton}>
 			{/* New */}
 			<svg className={styles.NewButton_icon}>
-				{/* <use xlinkHref={`${sprite}#icon-edit`}></use> */}
 				<use xlinkHref={`${sprite}#icon-auto_fix_high`}></use>
 			</svg>
 			<span>New</span>
@@ -45,9 +44,13 @@ const AllWorkoutsPage = () => {
 	const currentUser = useSelector(selectCurrentUser);
 	const { data: types } = useGetActivityTypesQuery();
 	const { data, isLoading } = useGetAllUserWorkoutsQuery(currentUser.userID);
+	const [openNewMenu, setOpenNewMenu] = useState<boolean>(false);
 	const activityTypes = types || [];
 	const userWorkouts = data ?? [];
-	console.log("data", data);
+
+	const onNew = () => {
+		setOpenNewMenu(true);
+	};
 
 	return (
 		<div className={styles.AllWorkoutsPage}>
@@ -56,11 +59,11 @@ const AllWorkoutsPage = () => {
 			</div>
 			<div className={styles.AllWorkoutsPage_header}>
 				<Header title="Your Workouts">
-					<NewButton />
+					<NewButton onClick={onNew} />
 				</Header>
 			</div>
 			<div className={styles.AllWorkoutsPage_main}>
-				{userWorkouts && (
+				{userWorkouts && !isLoading && (
 					<AllWorkouts workouts={userWorkouts} activityTypes={activityTypes} />
 				)}
 			</div>

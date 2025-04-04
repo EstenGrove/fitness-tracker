@@ -35,7 +35,7 @@ const AppLayout = () => {
 
 	const handleLogout = () => {
 		const { userID } = currentUser;
-		// dispatch(logoutUser(userID))
+		dispatch(logoutUser(userID));
 		navigate("/login");
 		console.log("LOGGING OUT USER:", userID);
 	};

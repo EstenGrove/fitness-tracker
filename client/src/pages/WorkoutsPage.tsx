@@ -2,14 +2,17 @@ import sprite2 from "../assets/icons/calendar2.svg";
 import sprite3 from "../assets/icons/dashboard.svg";
 import sprite from "../assets/icons/main2.svg";
 import styles from "../css/pages/WorkoutsPage.module.scss";
-import { Outlet } from "react-router";
 import { format } from "date-fns";
 import { ReactNode, RefObject, useRef, useState } from "react";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import PageHeader from "../components/layout/PageHeader";
 import ModalSM from "../components/shared/ModalSM";
 import LogStrengthWorkout from "../components/history/LogStrengthWorkout";
 import TodaysWorkouts from "../components/workouts/TodaysWorkouts";
+import { useGetTodaysWorkoutsQuery } from "../features/workouts/todaysWorkoutsApi";
+import { formatDate } from "../utils/utils_dates";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../features/user/userSlice";
+import { TodaysWorkout } from "../features/workouts/types";
 
 type ActionItemProps = {
 	icon: string;
@@ -140,7 +143,15 @@ const ActionsPanel = () => {
 	);
 };
 
+// const testDate = new Date(2025, 2, 22);
+const testDate = new Date();
 const WorkoutsPage = () => {
+	const baseDate = formatDate(testDate, "db");
+	const currentUser = useSelector(selectCurrentUser);
+	const { data, isLoading } = useGetTodaysWorkoutsQuery({
+		userID: currentUser.userID,
+		targetDate: baseDate,
+	});
 	const [quickAction, setQuickAction] = useState<QuickAction | null>(null);
 	const [showQuickActions, setShowQuickActions] = useState<boolean>(false);
 
@@ -175,7 +186,10 @@ const WorkoutsPage = () => {
 					<ActionsPanel />
 				</div>
 				<div className={styles.WorkoutsPage_main_list}>
-					<TodaysWorkouts />
+					<TodaysWorkouts
+						workouts={data as TodaysWorkout[]}
+						isLoading={isLoading}
+					/>
 				</div>
 				{/* <Outlet /> */}
 			</div>

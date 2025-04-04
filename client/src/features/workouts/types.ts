@@ -1,6 +1,8 @@
+import { WeekDayToken } from "../../utils/utils_dates";
 import { Activity } from "../activity/types";
+import { RepeatType } from "../shared/types";
 
-export type WorkoutStatus = "COMPLETED" | "IN-PROGRESS" | "NOT-COMPLETE";
+export type WorkoutStatus = "COMPLETE" | "IN-PROGRESS" | "NOT-COMPLETE";
 
 // Workout Types & Activity Types
 // - Defines a given exercise for a given activity type.
@@ -58,4 +60,43 @@ export interface StrengthSet {
 	sets: number;
 	reps: number;
 	weight: number;
+}
+
+export type WorkoutDetails =
+	| StrengthWorkout
+	| StretchWorkout
+	| CardioWorkout
+	| WalkWorkout
+	| TimedWorkout
+	| OtherWorkout;
+
+export interface WorkoutSchedule {
+	userID: string;
+	scheduleID: number;
+	activityType: Activity;
+	workoutID: number;
+	startDate: string;
+	endDate: string;
+	startTime: string;
+	endTime: string;
+	interval: number;
+	frequency: RepeatType;
+	byDay: WeekDayToken[];
+	byMonth: number;
+	byMonthDay: number;
+	isActive: boolean;
+	createdDate: string;
+}
+
+export interface TodaysWorkout {
+	userID: string;
+	workoutID: number;
+	activityType: Activity;
+	workoutName: string;
+	duration: number;
+	startTime: string;
+	endTime: string;
+	isRecurring: boolean;
+	workoutStatus: WorkoutStatus;
+	tagColor?: string | null;
 }
