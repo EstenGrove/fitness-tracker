@@ -4,14 +4,40 @@ import styles from "../../css/workouts/TodaysWorkout.module.scss";
 import { Activity } from "../../features/activity/types";
 import { TodaysWorkout as ITodaysWorkout } from "../../features/workouts/types";
 import { getActivityStyles } from "../../utils/utils_activity";
-import { formatTime, parseAnyTime } from "../../utils/utils_dates";
+import { formatDate, formatTime, parseAnyTime } from "../../utils/utils_dates";
 import { useRef, useState } from "react";
 import MenuDropdown from "../shared/MenuDropdown";
 import ModalSM from "../shared/ModalSM";
 import ConfirmDialog from "../shared/ConfirmDialog";
+import { useMarkAsDoneMutation } from "../../features/workouts/todaysWorkoutsApi";
+import { MarkAsDoneBody } from "../../utils/utils_workouts";
 
 type Props = {
 	workout: ITodaysWorkout;
+};
+
+type ItemsProps = {
+	onAction: (action: ModalType) => void;
+	isDone: boolean;
+};
+const MenuItems = ({ onAction, isDone = false }: ItemsProps) => {
+	return (
+		<>
+			<li onClick={() => onAction(EModalType.VIEW)}>View</li>
+			<li onClick={() => onAction(EModalType.EDIT)}>Edit</li>
+			{isDone ? (
+				<li
+					onClick={() => onAction(EModalType.CANCEL)}
+					style={{ color: "var(--accent-yellow)" }}
+				>
+					Undo 'Done'
+				</li>
+			) : (
+				<li onClick={() => onAction(EModalType.COMPLETE)}>Mark as Done</li>
+			)}
+			<li onClick={() => onAction(EModalType.DELETE)}>Delete</li>
+		</>
+	);
 };
 
 const TypeBadge = ({ activityType }: { activityType: Activity }) => {
@@ -80,18 +106,20 @@ const getWorkoutTimes = (workout: ITodaysWorkout) => {
 	return `${start} to ${end}`;
 };
 
-type ModalType = "VIEW" | "EDIT" | "DELETE" | "COMPLETE";
+type ModalType = "VIEW" | "EDIT" | "DELETE" | "COMPLETE" | "CANCEL";
 
 enum EModalType {
 	VIEW = "VIEW",
 	EDIT = "EDIT",
 	DELETE = "DELETE",
 	COMPLETE = "COMPLETE",
+	CANCEL = "CANCEL",
 }
 
 const TodaysWorkout = ({ workout }: Props) => {
 	const navigate = useNavigate();
 	const cardRef = useRef<HTMLDivElement>(null);
+	const [updatedWorkout] = useMarkAsDoneMutation();
 	const { activityType, workoutName, duration } = workout;
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [modalType, setModalType] = useState<ModalType | null>(null);
@@ -123,6 +151,19 @@ const TodaysWorkout = ({ workout }: Props) => {
 		setModalType(null);
 	};
 
+	const confirmMarkAsDone = async () => {
+		const body: MarkAsDoneBody = {
+			userID: workout.userID,
+			workoutID: workout.workoutID,
+			activityType: workout.activityType,
+			workoutDate: formatDate(new Date(), "db"),
+			effort: "Easy",
+			workoutLength: workout.duration,
+		};
+		await updatedWorkout(body);
+		closeModal();
+	};
+
 	return (
 		<div ref={cardRef} className={styles.TodaysWorkout} style={borderStyles}>
 			<div className={styles.TodaysWorkout_top}>
@@ -142,12 +183,13 @@ const TodaysWorkout = ({ workout }: Props) => {
 					</svg>
 					{showMenu && (
 						<MenuDropdown closeMenu={closeMenu}>
-							<li onClick={() => onAction(EModalType.VIEW)}>View</li>
+							<MenuItems isDone={isCompleted} onAction={onAction} />
+							{/* <li onClick={() => onAction(EModalType.VIEW)}>View</li>
 							<li onClick={() => onAction(EModalType.EDIT)}>Edit</li>
 							<li onClick={() => onAction(EModalType.COMPLETE)}>
 								Mark as Done
 							</li>
-							<li onClick={() => onAction(EModalType.DELETE)}>Delete</li>
+							<li onClick={() => onAction(EModalType.DELETE)}>Delete</li> */}
 						</MenuDropdown>
 					)}
 				</div>
@@ -176,10 +218,13 @@ const TodaysWorkout = ({ workout }: Props) => {
 				</ModalSM>
 			)}
 			{modalType === "COMPLETE" && (
-				<ConfirmDialog onClose={closeModal}>
-					<div className="MarkAsDone">
-						<button>Mark as Done</button>
+				<ConfirmDialog onClose={closeModal} onConfirm={confirmMarkAsDone}>
+					<div className={styles.ConfirmDone}>
+						{/*  */}
+						{/*  */}
 					</div>
+					{/*  */}
+					{/*  */}
 				</ConfirmDialog>
 			)}
 			{modalType === "DELETE" && (

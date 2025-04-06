@@ -6,10 +6,10 @@ const useWeekHeader = (
 	onSelect?: (date: Date | string) => void
 ) => {
 	const baseDate: string = formatDate(base, "url");
-	const [selectedDate, setSelectedDate] = useState<Date | string>(baseDate);
+	const [selectedDate, setSelectedDate] = useState<string>(baseDate);
 	const selectDate = (date: Date | string) => {
-		// const newDate = formatDate(date, "url");
-		setSelectedDate(date);
+		const newDate = formatDate(date, "url");
+		setSelectedDate(newDate);
 
 		return onSelect && onSelect(date);
 	};

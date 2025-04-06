@@ -16,10 +16,11 @@ interface Details {
 	totalTime: string;
 }
 
+const Set = () => {};
+
 const WorkoutSummary = ({ workout, details }: Props) => {
-	const name = addEllipsis(workout.workoutName, 20);
-	const type = workout.activityType;
-	const duration = details.recordedDuration;
+	const name = addEllipsis(workout?.workoutName ?? "", 20);
+	const type = workout?.activityType;
 	return (
 		<div className={styles.WorkoutSummary}>
 			<div className={styles.WorkoutSummary_header}>

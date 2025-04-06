@@ -1,5 +1,5 @@
 import { Activity, ActivityType } from "../features/activity/types";
-import { WorkoutHistory } from "../features/history/types";
+import { Effort, WorkoutHistory } from "../features/history/types";
 import { AsyncResponse } from "../features/types";
 import {
 	CardioWorkout,
@@ -11,6 +11,7 @@ import {
 	TodaysWorkout,
 	WalkWorkout,
 	Workout,
+	WorkoutDetails,
 	WorkoutSchedule,
 } from "../features/workouts/types";
 import { currentEnv, workoutApis } from "./utils_env";
@@ -163,6 +164,39 @@ const endActiveWorkout = async (userID: string, details: object) => {
 	}
 };
 
+export interface MarkAsDoneBody {
+	userID: string;
+	workoutID: number;
+	activityType: Activity;
+	workoutDate: string;
+	effort: Effort;
+	workoutLength: number;
+}
+
+export type MarkAsDoneResp = AsyncResponse<{
+	updatedWorkout: TodaysWorkout;
+	history: WorkoutHistory;
+}>;
+
+const markWorkoutAsDone = async (
+	userID: string,
+	details: MarkAsDoneBody
+): MarkAsDoneResp => {
+	let url = currentEnv.base + workoutApis.markAsDone;
+	url += "?" + new URLSearchParams({ userID });
+
+	try {
+		const response = await fetch(url, {
+			method: "POST",
+			body: JSON.stringify(details),
+		});
+		const request = await response.json();
+		return request;
+	} catch (error) {
+		return error;
+	}
+};
+
 // Workout Logging Utils
 
 interface LogStrengthSet {
@@ -224,7 +258,9 @@ export type WorkoutLogDetails =
 	| TimedLog
 	| OtherLog;
 
-const generateStrengthSets = (workout: StrengthWorkout) => {
+const generateStrengthSets = (
+	workout: Pick<StrengthWorkout, "sets" | "reps" | "weight">
+) => {
 	const { sets, reps, weight } = workout;
 	const workoutSets: StrengthSet[] = [];
 
@@ -232,7 +268,7 @@ const generateStrengthSets = (workout: StrengthWorkout) => {
 		const entry: StrengthSet = {
 			id: i + 1,
 			sets: 1,
-			reps: reps,
+			reps: reps + i,
 			weight,
 		};
 		workoutSets.push(entry);
@@ -367,6 +403,7 @@ export {
 	fetchActiveWorkout,
 	fetchSelectedWorkoutDetails,
 	endActiveWorkout,
+	markWorkoutAsDone,
 	// Logging Utils
 	generateStrengthSets,
 	prepareBaseWorkoutLog,

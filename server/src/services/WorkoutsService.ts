@@ -1,8 +1,10 @@
 import type { Pool, QueryResult } from "pg";
 import type {
 	Activity,
+	LogWorkoutPayload,
 	SelectedWorkoutDetailsDB,
 	WorkoutDB,
+	WorkoutDetailsClient,
 	WorkoutDetailsDB,
 	WorkoutScheduleDB,
 } from "./types.ts";
@@ -24,6 +26,60 @@ class WorkoutsService {
 	#db: Pool;
 	constructor(db: Pool) {
 		this.#db = db;
+	}
+
+	async markAsDone(userID: string, workout: LogWorkoutPayload) {
+		const {
+			workoutID,
+			activityType,
+			workoutDate,
+			startTime,
+			endTime,
+			workoutLength,
+			effort,
+		} = workout;
+		try {
+			const query = `SELECT * FROM mark_workout_as_done(
+				$1,
+				$2,
+				$3,
+				$4,
+				$5,
+				$6,
+				$7,
+				$8
+			)`;
+			const values = [
+				userID,
+				workoutID,
+				activityType,
+				startTime,
+				endTime,
+				workoutLength,
+				workoutDate,
+				effort,
+			];
+			const results = await this.#db.query(query, values);
+			const rows = results?.rows;
+
+			return rows;
+		} catch (error) {
+			return error;
+		}
+	}
+	async markAsDoneJSON(userID: string, workout: LogWorkoutPayload) {
+		try {
+			const query = `SELECT * FROM mark_workout_as_done_json(
+				$1,
+				$2
+			)`;
+			const results = await this.#db.query(query, [userID, workout]);
+			const rows = results?.rows;
+
+			return rows;
+		} catch (error) {
+			return error;
+		}
 	}
 
 	async getTodaysWorkouts(userID: string, targetDate: string) {

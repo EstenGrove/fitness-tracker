@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styles from "../../css/workouts/ActiveWorkout.module.scss";
 import { Workout } from "../../features/workouts/types";
 import { addEllipsis } from "../../utils/utils_misc";
@@ -32,13 +33,32 @@ const Header = ({ workout }: HeaderProps) => {
 	);
 };
 
+interface WorkoutDetails {
+	startedAt: string;
+	endedAt: string;
+	totalTime: string;
+}
+
 const ActiveWorkout = ({ workout }: Props) => {
+	const [details, setDetails] = useState<WorkoutDetails>({
+		startedAt: "",
+		endedAt: "",
+		totalTime: "",
+	});
+
+	const startWorkout = () => {
+		//
+	};
+	const endWorkout = () => {
+		//
+	};
+
 	return (
 		<div className={styles.ActiveWorkout}>
 			<div className={styles.ActiveWorkout_header}>
 				<Header workout={workout} />
 			</div>
-			{/* <WorkoutTimer title={""} onStart={startWorkout} onEnd={endWorkout} /> */}
+			<WorkoutTimer title={""} onStart={startWorkout} onEnd={endWorkout} />
 			{/*  */}
 			{/*  */}
 		</div>

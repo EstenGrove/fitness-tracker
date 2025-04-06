@@ -8,7 +8,7 @@ import {
 	getTodaysWorkouts,
 } from "./operations";
 import { WorkoutHistory } from "../history/types";
-import { SelectedWorkout } from "../../utils/utils_workouts";
+import { markWorkoutAsDone, SelectedWorkout } from "../../utils/utils_workouts";
 
 export interface ActiveWorkout {
 	workout: Workout;

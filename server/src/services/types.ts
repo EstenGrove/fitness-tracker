@@ -584,3 +584,14 @@ export interface WorkoutHistoryClient {
 	recordedSteps: number;
 	recordedMiles: number;
 }
+
+export interface LogWorkoutPayload {
+	userID: string;
+	workoutID: number;
+	activityType: Activity;
+	workoutDate: string;
+	startTime: string;
+	endTime: string;
+	workoutLength: number;
+	effort: Effort;
+}

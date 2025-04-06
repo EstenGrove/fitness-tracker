@@ -2,9 +2,9 @@ import { Hono, type Context } from "hono";
 import { workoutsService } from "../services/index.ts";
 import type {
 	Activity,
+	LogWorkoutPayload,
 	SelectedWorkoutDetailsDB,
 	WorkoutDB,
-	WorkoutDetailsDB,
 } from "../services/types.ts";
 import { getResponseError, getResponseOk } from "../utils/api.ts";
 import {
@@ -19,10 +19,10 @@ import type {
 	TodaysWorkoutDB,
 	WorkoutLogBody,
 } from "../modules/workouts/types.ts";
-import type {
-	ActiveWorkoutDB,
-	WorkoutHistoryLog,
-} from "../services/WorkoutsService.ts";
+import type { ActiveWorkoutDB } from "../services/WorkoutsService.ts";
+import { formatDateTime } from "../utils/dates.ts";
+import { subMinutes } from "date-fns";
+import { markWorkoutAsDone } from "../modules/workouts/markAsDone.ts";
 
 const app = new Hono();
 
@@ -164,4 +164,39 @@ app.post("/endWorkout", async (ctx: Context) => {
 
 	return ctx.json(resp);
 });
+app.post("/markWorkoutAsDone", async (ctx: Context) => {
+	const body = await ctx.req.json();
+	const workout = body as LogWorkoutPayload;
+	const { userID, workoutID, activityType, workoutDate, workoutLength } =
+		workout;
+
+	console.log("body", body);
+
+	// const data = {};
+	const data = await markWorkoutAsDone(userID, {
+		userID,
+		workoutID,
+		activityType,
+		workoutDate,
+		workoutLength,
+	});
+
+	console.log("data", data);
+
+	if (data instanceof Error) {
+		const errResp = getResponseError(data, {
+			history: [],
+			updatedWorkout: {},
+		});
+		return ctx.json(errResp);
+	}
+
+	const resp = getResponseOk({
+		updatedWorkout: data,
+		history: [],
+	});
+
+	return ctx.json(resp);
+});
+
 export default app;

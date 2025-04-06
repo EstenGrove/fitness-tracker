@@ -22,6 +22,7 @@ import WorkoutTimer from "../components/timer/WorkoutTimer";
 import LogStrengthWorkout from "../components/history/LogStrengthWorkout";
 import { differenceInMinutes } from "date-fns";
 import WorkoutSummary from "../components/history/WorkoutSummary";
+import LogStrengthSets from "../components/history/LogStrengthSets";
 
 type HeaderProps = {
 	workout: Workout;
@@ -79,6 +80,7 @@ const WorkoutIcon = ({ type }: { type: Activity }) => {
 interface WorkoutInfo extends TimeInfo {
 	workoutLength: string | number;
 	targetLength: string | number;
+	totalTime: string;
 }
 
 const calculateLength = (info: TimeInfo) => {
@@ -107,6 +109,7 @@ const ActiveWorkoutPage = () => {
 		endedAt: "",
 		workoutLength: 0,
 		targetLength: workout?.duration,
+		totalTime: "",
 	});
 	const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
 
@@ -121,6 +124,7 @@ const ActiveWorkoutPage = () => {
 			...info,
 			workoutLength: amount,
 			targetLength: info.totalTime as string,
+			totalTime: info.totalTime as string,
 		});
 		setShowConfirmModal(true);
 	};
@@ -164,18 +168,19 @@ const ActiveWorkoutPage = () => {
 				</>
 			)}
 
-			{showConfirmModal && (
+			{true && (
 				<ModalLG onClose={() => setShowConfirmModal(false)}>
 					<WorkoutSummary
 						workout={workout}
 						details={{
 							startTime: workoutDetails.startedAt as string,
 							endTime: workoutDetails.endedAt as string,
-							totalTime: workoutDetails.totalTime,
+							totalTime: workoutDetails.totalTime as string,
 							targetDuration: workoutDetails.targetLength as number,
 							recordedDuration: workoutDetails.workoutLength as number,
 						}}
 					/>
+					<LogStrengthSets />
 					{/* <LogStrengthWorkout
 						workout={workout}
 						workoutDetails={workoutDetails as WorkoutInfo}

@@ -5,7 +5,6 @@ import { useGetActivityTypesQuery } from "../features/activity/activityApi";
 import { useGetSharedDataQuery } from "../features/shared/sharedApi";
 import { useGetDashboardSummaryQuery } from "../features/dashboard/summaryApi";
 import { useWeekHeader } from "../hooks/useWeekHeader";
-import { formatDate } from "../utils/utils_dates";
 import { WeeklyMinsByDate } from "../features/dashboard/types";
 import Loader from "../components/layout/Loader";
 import RecentActivity from "../components/dashboard/RecentActivity";
