@@ -1,7 +1,10 @@
 import { useSearchParams } from "react-router";
 
-type ParamsObj = Record<string, string | number | boolean | null | undefined>;
-type ParamValOrVals = Record<string, string> | string;
+export type ParamsObj = Record<
+	string,
+	string | number | boolean | null | undefined
+>;
+export type ParamValOrVals = Record<string, string> | string;
 
 const useQueryParams = () => {
 	const [params, setParams] = useSearchParams();

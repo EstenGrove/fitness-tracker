@@ -50,8 +50,8 @@ const blockMap: BlockMap = {
 		color: "var(--blueGrey400)",
 	},
 	Cardio: {
-		icon: "",
-		color: "",
+		icon: "pushups",
+		color: "var(--accent-green)",
 	},
 	Effort: {
 		icon: "effort",

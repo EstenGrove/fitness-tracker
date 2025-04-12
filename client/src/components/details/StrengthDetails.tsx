@@ -1,10 +1,9 @@
 import styles from "../../css/details/StrengthDetails.module.scss";
 import { StrengthHistory } from "../../features/history/types";
 import { StrengthWorkout } from "../../features/workouts/types";
-import TypeBadge from "../activity/TypeBadge";
 import DetailsBlock from "./DetailsBlock";
 
-type Props = { workout: StrengthWorkout };
+type Props = { entry: StrengthWorkout | StrengthHistory };
 
 const formatDuration = (duration: number) => {
 	const secs = ":00";
@@ -13,15 +12,51 @@ const formatDuration = (duration: number) => {
 	return time;
 };
 
-const StrengthDetails = ({ workout }: Props) => {
-	const {
-		workoutName,
-		workoutDesc,
-		duration,
-		sets = 4,
-		reps = 20,
-		weight = 20,
-	} = workout;
+const getReps = (entry: StrengthHistory | StrengthWorkout) => {
+	if ("historyID" in entry) {
+		// history record
+		const record = entry as StrengthHistory;
+		const reps = record.sets.reduce((total, item) => (total += item.reps), 0);
+		return reps + "reps";
+	} else {
+		// workout
+		const record = entry as StrengthWorkout;
+		return record.reps + "reps/set";
+	}
+};
+const getSets = (entry: StrengthHistory | StrengthWorkout) => {
+	if ("historyID" in entry) {
+		// history record
+		const record = entry as StrengthHistory;
+		const sets = record.sets.length || 0;
+		return sets;
+	} else {
+		// workout
+		const record = entry as StrengthWorkout;
+		return record.sets;
+	}
+};
+const getWeight = (entry: StrengthHistory | StrengthWorkout) => {
+	if ("historyID" in entry) {
+		// history record
+		const record = entry as StrengthHistory;
+		const weight = record.sets.reduce(
+			(total, item) => (total = item.weight > total ? item.weight : total),
+			0
+		);
+		return weight + "lbs.";
+	} else {
+		// workout
+		const record = entry as StrengthWorkout;
+		return record.weight + "lbs.";
+	}
+};
+
+const StrengthDetails = ({ entry }: Props) => {
+	const { duration } = entry;
+	const reps = getReps(entry);
+	const sets = getSets(entry);
+	const weight = getWeight(entry);
 	const mins = formatDuration(duration);
 	return (
 		<div className={styles.StrengthDetails}>
@@ -29,7 +64,7 @@ const StrengthDetails = ({ workout }: Props) => {
 			<div className={styles.StrengthDetails_details}>
 				<DetailsBlock type="Duration" label="Duration" value={mins} />
 				<DetailsBlock type="Effort" label="Effort" value="Moderate" />
-				<DetailsBlock type="Calories" label="Calories" value={52.5} />
+				<DetailsBlock type="Calories" label="Calories" value={70.22} />
 				<DetailsBlock type="Reps" label="Reps" value={reps} />
 				<DetailsBlock type="Sets" label="Sets" value={sets + " sets"} />
 				<DetailsBlock type="Weight" label="Weight" value={weight} />

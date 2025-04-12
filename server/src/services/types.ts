@@ -536,6 +536,7 @@ export interface WorkoutHistoryItemDB {
 	start_time: string;
 	end_time: string;
 	duration: number;
+	target_duration: number;
 	effort: Effort;
 	created_date: string;
 }
@@ -548,6 +549,7 @@ export interface WorkoutHistoryItemClient {
 	startTime: string;
 	endTime: string;
 	duration: number;
+	targetDuration: number;
 	effort: Effort;
 	createdDate: string;
 }

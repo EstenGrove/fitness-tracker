@@ -18,7 +18,6 @@ import {
 	subQuarters,
 	subWeeks,
 	subDays,
-	isValid,
 } from "date-fns";
 import { RepeatType } from "./utils_recurring";
 
@@ -149,6 +148,7 @@ export interface DateFormats {
 		full: string;
 		db: string;
 		longMs: string;
+		common: string;
 	};
 	weekday: {
 		full: string; // 'Monday', 'Tuesday' etc
@@ -190,6 +190,7 @@ const FORMAT_TOKENS: DateFormats = {
 		full: "MMMM do, yyyy hh:mm a",
 		longMs: "MM/dd/yyyy hh:mm:ss a",
 		db: "yyyy-MM-dd HH:mm",
+		common: "M/d/yyyy h:mm a",
 	},
 	weekday: {
 		full: "EEEE",

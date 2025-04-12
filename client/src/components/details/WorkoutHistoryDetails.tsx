@@ -1,13 +1,28 @@
 import sprite from "../../assets/icons/main2.svg";
 import styles from "../../css/details/WorkoutHistoryDetails.module.scss";
-import { WorkoutHistory } from "../../features/history/types";
+import {
+	CardioHistory,
+	OtherHistory,
+	StrengthHistory,
+	StretchHistory,
+	TimedHistory,
+	WalkHistory,
+	WorkoutHistory,
+} from "../../features/history/types";
 import { addEllipsis } from "../../utils/utils_misc";
-import ProgressCircle from "../ui/ProgressCircle";
 import { Activity } from "../../features/activity/types";
 import StrengthDetails from "./StrengthDetails";
+import StretchDetails from "./StretchDetails";
+import CardioDetails from "./CardioDetails";
+import WalkDetails from "./WalkDetails";
+import TimedDetails from "./TimedDetails";
+import OtherDetails from "./OtherDetails";
+import { formatTime } from "../../utils/utils_dates";
+import { getActivityStyles } from "../../utils/utils_activity";
 
 type Props = {
 	history: WorkoutHistory;
+	activityType: Activity;
 };
 
 const icons = {
@@ -109,19 +124,18 @@ const Block = ({ type, title, value }: BlockProps) => {
 	);
 };
 
-const WorkoutHistoryDetails = ({ history }: Props) => {
-	const {
-		workoutID,
-		workoutName,
-		workoutDate,
-		duration,
-		effort,
-		startTime,
-		endTime,
-	} = history;
+const WorkoutHistoryDetails = ({ history, activityType }: Props) => {
+	const { workoutName, startTime, endTime } = history;
 	const title = addEllipsis(workoutName, 35);
+	const startedAt = formatTime(startTime, "short");
+	const endedAt = formatTime(endTime, "short");
+	const typeStyles = getActivityStyles(activityType);
+
 	return (
 		<div className={styles.WorkoutHistoryDetails}>
+			<div className={styles.WorkoutHistoryDetails_top}>
+				Activity: <b style={{ color: typeStyles.color }}>{activityType}</b>
+			</div>
 			<div className={styles.WorkoutHistoryDetails_completed}>
 				<svg className={styles.WorkoutHistoryDetails_completed_icon}>
 					<use xlinkHref={`${sprite}#icon-guarantee-2`}></use>
@@ -130,18 +144,29 @@ const WorkoutHistoryDetails = ({ history }: Props) => {
 			</div>
 			<div className={styles.WorkoutHistoryDetails_header}>
 				<div className={styles.WorkoutHistoryDetails_header_title}>{title}</div>
+				<div className={styles.WorkoutHistoryDetails_header_when}>
+					{startedAt} - {endedAt}
+				</div>
 			</div>
 			<div className={styles.WorkoutHistoryDetails_details_blocks}>
-				<StrengthDetails workout={history} />
-				{/* <Block type="Duration" icon="mins" title="Duration" value="26:35" />
-				<Block type="Calories" icon="kcals" title="Calories" value="275.6" />
-				<Block type="Effort" icon="effort" title="Effort" value="275.6" />
-				<Block type="Reps" icon="reps" title="Strength" value="25 reps" />
-				<Block type="Steps" icon="steps" title="Steps" value="2.5k" />
-				<Block type="Miles" icon="miles" title="Miles" value="2.5k" />
-				<Block type="WorkoutType" icon="miles" title="Workout" value="Lift" />
-				<Block type="Weight" icon="weight" title="Weight" value="20lbs." />
-				<Block type="Sets" icon="sets" title="Sets" value="4 sets" /> */}
+				{activityType === "Strength" && (
+					<StrengthDetails entry={history as StrengthHistory} />
+				)}
+				{activityType === "Stretch" && (
+					<StretchDetails entry={history as StretchHistory} />
+				)}
+				{activityType === "Cardio" && (
+					<CardioDetails entry={history as CardioHistory} />
+				)}
+				{activityType === "Walk" && (
+					<WalkDetails entry={history as WalkHistory} />
+				)}
+				{activityType === "Timed" && (
+					<TimedDetails entry={history as TimedHistory} />
+				)}
+				{activityType === "Other" && (
+					<OtherDetails entry={history as OtherHistory} />
+				)}
 			</div>
 
 			{/*  */}

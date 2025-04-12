@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from "react";
-import styles from "../../css/history/ViewWorkoutHistory.module.scss";
+import styles from "../../css/history/ViewHistoryDetails.module.scss";
+import { useCallback, useEffect } from "react";
 import { useAppDispatch } from "../../store/store";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../features/user/userSlice";
@@ -7,12 +7,14 @@ import {
 	selectLoadingWorkout,
 	selectSelectedWorkout,
 } from "../../features/workouts/workoutsSlice";
+import { getSelectedWorkout } from "../../features/workouts/operations";
 import { Activity } from "../../features/activity/types";
+import WorkoutHistoryDetails from "../details/WorkoutHistoryDetails";
 import { WorkoutHistory } from "../../features/history/types";
 import { formatDate } from "../../utils/utils_dates";
 import { sortHistoryByDate } from "../../utils/utils_history";
 import { getSelectedHistory } from "../../features/history/operations";
-import WorkoutHistoryDetails from "../details/WorkoutHistoryDetails";
+import { selectSelectedHistory } from "../../features/history/historySlice";
 
 type Props = {
 	historyID: number;
@@ -32,20 +34,19 @@ const fakeHistory: WorkoutHistory = {
 	createdDate: new Date().toString(),
 };
 
-const ViewWorkoutHistory = ({ historyID, activityType }: Props) => {
+const ViewHistoryDetails = ({ historyID, activityType }: Props) => {
 	const dispatch = useAppDispatch();
 	const currentUser = useSelector(selectCurrentUser);
-	const isLoading = useSelector(selectLoadingWorkout);
-	const selectedWorkout = useSelector(selectSelectedWorkout);
-	const { workout, history, schedule } = selectedWorkout;
-	const relatedHistory = sortHistoryByDate(history);
+	const selectedHistory = useSelector(selectSelectedHistory);
+	const selectedWorkout = selectedHistory.workout;
+	const historyEntry = selectedHistory?.entry;
 
 	const getWorkout = useCallback(() => {
 		dispatch(
 			getSelectedHistory({
 				userID: currentUser.userID,
 				historyID: historyID,
-				activityType: activityType,
+				activityType,
 			})
 		);
 	}, [activityType, currentUser.userID, dispatch, historyID]);
@@ -62,11 +63,17 @@ const ViewWorkoutHistory = ({ historyID, activityType }: Props) => {
 	}, [getWorkout]);
 	return (
 		<div className={styles.ViewWorkoutHistory}>
-			<WorkoutHistoryDetails history={relatedHistory} />
-			{/*  */}
-			{/*  */}
+			{historyEntry && (
+				<WorkoutHistoryDetails
+					activityType={activityType}
+					history={{
+						...historyEntry,
+						workoutName: selectedWorkout.workoutName,
+					}}
+				/>
+			)}
 		</div>
 	);
 };
 
-export default ViewWorkoutHistory;
+export default ViewHistoryDetails;

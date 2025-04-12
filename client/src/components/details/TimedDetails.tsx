@@ -3,8 +3,9 @@ import sprite from "../../assets/icons/main2.svg";
 import styles from "../../css/details/TimedDetails.module.scss";
 import { TimedWorkout } from "../../features/workouts/types";
 import TypeBadge from "../activity/TypeBadge";
+import { TimedHistory } from "../../features/history/types";
 
-type Props = { workout: TimedWorkout };
+type Props = { entry: TimedWorkout | TimedHistory };
 
 type DetailsProps = {
 	label: string;
@@ -38,8 +39,8 @@ const DetailsItem = ({ label, icon, children }: DetailsProps) => {
 	);
 };
 
-const TimedDetails = ({ workout }: Props) => {
-	const { workoutName, workoutDesc, exercise, duration } = workout;
+const TimedDetails = ({ entry }: Props) => {
+	const { workoutName, workoutDesc, exercise, duration } = entry;
 	return (
 		<div className={styles.TimedDetails}>
 			<div className={styles.TimedDetails_header}>

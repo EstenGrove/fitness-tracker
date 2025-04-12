@@ -3,8 +3,10 @@ import sprite from "../../assets/icons/main2.svg";
 import styles from "../../css/details/CardioDetails.module.scss";
 import { CardioWorkout } from "../../features/workouts/types";
 import TypeBadge from "../activity/TypeBadge";
+import { CardioHistory } from "../../features/history/types";
+import DetailsBlock from "./DetailsBlock";
 
-type Props = { workout: CardioWorkout };
+type Props = { entry: CardioWorkout | CardioHistory };
 
 type DetailsProps = {
 	label: string;
@@ -38,31 +40,20 @@ const DetailsItem = ({ label, icon, children }: DetailsProps) => {
 	);
 };
 
-const CardioDetails = ({ workout }: Props) => {
-	const { workoutName, workoutDesc, duration, exercise, reps } = workout;
+const CardioDetails = ({ entry }: Props) => {
+	const { duration, reps } = entry;
+	const mins = duration + ":00";
+	const kcals = "72.5";
+	const exercise = entry?.exercise || "Cardio";
 	return (
 		<div className={styles.CardioDetails}>
-			<div className={styles.CardioDetails_header}>
-				<TypeBadge activityType="Cardio" />
-				<div className={styles.CardioDetails_header_about}>
-					<h3 className={styles.CardioDetails_header_about_name}>
-						{workoutName}
-					</h3>
-					<div className={styles.CardioDetails_header_about_desc}>
-						{workoutDesc}
-					</div>
-				</div>
-			</div>
-			<div className={styles.CardioDetails_main}>
-				<DetailsItem icon="exercise" label="Exercise: ">
-					<span>{exercise}</span>
-				</DetailsItem>
-				<DetailsItem icon="reps" label="Reps: ">
-					<span>{reps}</span>
-				</DetailsItem>
-				<DetailsItem icon="duration" label="Duration: ">
-					<span>{duration} min.</span>
-				</DetailsItem>
+			<div className={styles.CardioDetails_title}>Workout Details:</div>
+			<div className={styles.CardioDetails_details}>
+				<DetailsBlock type="Duration" label="Duration" value={mins} />
+				<DetailsBlock type="Effort" label="Effort" value="Moderate" />
+				<DetailsBlock type="Calories" label="Calories" value={kcals} />
+				<DetailsBlock type="Reps" label="Reps" value={reps} />
+				<DetailsBlock type="Cardio" label="Exercise" value={exercise} />
 			</div>
 		</div>
 	);

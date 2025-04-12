@@ -32,3 +32,11 @@ export interface UserRangeParams {
 export interface UserRangeActivityParams extends UserRangeParams {
 	activityType: Activity;
 }
+
+export enum EMenuAction {
+	EDIT = "EDIT",
+	VIEW = "VIEW",
+	COMPLETE = "COMPLETE",
+	CANCEL = "CANCEL",
+	DELETE = "DELETE",
+}

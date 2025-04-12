@@ -8,6 +8,8 @@ import { useQueryParams } from "../hooks/useQueryParams";
 import { getLastXMonthsRange } from "../utils/utils_calendar";
 import { useEffect } from "react";
 import { formatDate } from "../utils/utils_dates";
+import { setHistoryRange } from "../features/history/historySlice";
+import { useAppDispatch } from "../store/store";
 
 const CalendarIcon = () => {
 	return (
@@ -20,17 +22,20 @@ const CalendarIcon = () => {
 };
 
 const WorkoutHistoryPage = () => {
-	const baseRange = getLastXMonthsRange();
 	const params = useQueryParams();
+	const dispatch = useAppDispatch();
+	const baseRange = getLastXMonthsRange();
 
 	useEffect(() => {
 		let isMounted = true;
 		if (!isMounted) return;
-
-		params.setParams({
+		const initialRange = {
 			startDate: formatDate(baseRange.startDate, "db"),
 			endDate: formatDate(baseRange.endDate, "db"),
-		});
+		};
+
+		params.setParams(initialRange);
+		dispatch(setHistoryRange(initialRange));
 
 		return () => {
 			isMounted = false;
@@ -39,7 +44,7 @@ const WorkoutHistoryPage = () => {
 	}, []);
 
 	return (
-		<PageContainer>
+		<PageContainer padding="1rem 2rem">
 			<div className={styles.WorkoutHistoryPage}>
 				<div className={styles.WorkoutHistoryPage_header}>
 					<PageHeader title="History">

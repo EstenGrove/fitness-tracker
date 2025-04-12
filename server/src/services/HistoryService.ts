@@ -1,7 +1,13 @@
 import type { Pool } from "pg";
-import type { Activity, DateRange, WorkoutHistoryDB } from "./types.ts";
+import type {
+	Activity,
+	DateRange,
+	WorkoutDB,
+	WorkoutHistoryDB,
+} from "./types.ts";
 import type {
 	HistoryDetailsDB,
+	SelectedHistoryDB,
 	StrengthHistoryDB,
 } from "../modules/history/types.ts";
 
@@ -9,6 +15,29 @@ class HistoryService {
 	#db: Pool;
 	constructor(db: Pool) {
 		this.#db = db;
+	}
+
+	async getSelectedHistoryDetails(
+		userID: string,
+		historyID: number,
+		activityType: Activity
+	): Promise<SelectedHistoryDB | unknown> {
+		try {
+			const query = `SELECT * FROM get_selected_history(
+				$1,
+				$2,
+				$3
+			) as data`;
+			const results = await this.#db.query(query, [
+				userID,
+				historyID,
+				activityType,
+			]);
+			const rows = results?.rows?.[0]?.data;
+			return rows;
+		} catch (error) {
+			return error;
+		}
 	}
 
 	async getHistoryDetailsForRange(userID: string, range: DateRange) {

@@ -94,9 +94,9 @@ const getTodaysWorkouts = createAsyncThunk(
 	}
 );
 
-const endWorkout = createAsyncThunk("workouts/endWorkout", async (params) => {
-	const response = await endActiveWorkout(params);
-});
+// const endWorkout = createAsyncThunk("workouts/endWorkout", async (params) => {
+// 	// const response = await endActiveWorkout(params);
+// });
 
 export {
 	getUserWorkoutsByDate,
@@ -104,5 +104,5 @@ export {
 	getSelectedWorkout,
 	getTodaysWorkouts,
 	getActiveWorkout,
-	endWorkout,
+	// endWorkout,
 };

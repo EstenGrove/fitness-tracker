@@ -11,6 +11,8 @@ type IconProps = {
 	openMenu: () => void;
 };
 
+export type MenuAction = "EDIT" | "VIEW" | "DELETE" | "COMPLETE" | "CANCEL";
+
 const MenuIcon = ({ openMenu }: IconProps) => {
 	return (
 		<div onClick={openMenu} className={styles.MenuIcon}>

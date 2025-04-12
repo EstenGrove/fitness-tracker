@@ -3,8 +3,9 @@ import sprite from "../../assets/icons/main.svg";
 import styles from "../../css/details/OtherDetails.module.scss";
 import { OtherWorkout } from "../../features/workouts/types";
 import TypeBadge from "../activity/TypeBadge";
+import { OtherHistory } from "../../features/history/types";
 
-type Props = { workout: OtherWorkout };
+type Props = { entry: OtherWorkout | OtherHistory };
 
 type DetailsProps = {
 	label: string;
@@ -38,8 +39,8 @@ const DetailsItem = ({ label, icon, children }: DetailsProps) => {
 	);
 };
 
-const OtherDetails = ({ workout }: Props) => {
-	const { workoutName, workoutDesc, exercise, duration } = workout;
+const OtherDetails = ({ entry }: Props) => {
+	const { workoutName, workoutDesc, exercise, duration } = entry;
 	return (
 		<div className={styles.OtherDetails}>
 			<div className={styles.OtherDetails_header}>

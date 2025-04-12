@@ -3,8 +3,9 @@ import sprite from "../../assets/icons/main2.svg";
 import styles from "../../css/details/StretchDetails.module.scss";
 import { StretchWorkout } from "../../features/workouts/types";
 import TypeBadge from "../activity/TypeBadge";
+import { StretchHistory } from "../../features/history/types";
 
-type Props = { workout: StretchWorkout };
+type Props = { entry: StretchWorkout | StretchHistory };
 
 type DetailsProps = {
 	label: string;
@@ -38,8 +39,8 @@ const DetailsItem = ({ label, icon, children }: DetailsProps) => {
 	);
 };
 
-const StretchDetails = ({ workout }: Props) => {
-	const { workoutName, workoutDesc, exercise, duration } = workout;
+const StretchDetails = ({ entry }: Props) => {
+	const { workoutName, workoutDesc, exercise, duration } = entry;
 	return (
 		<div className={styles.StretchDetails}>
 			<div className={styles.StretchDetails_header}>

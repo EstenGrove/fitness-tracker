@@ -8,6 +8,7 @@ import { selectCurrentUser } from "../features/user/userSlice";
 import { getLastXMonthsRange } from "../utils/utils_calendar";
 import { formatDate } from "../utils/utils_dates";
 import { endOfWeek, startOfWeek } from "date-fns";
+import { useHistoryRange } from "../hooks/useHistoryRange";
 
 const getThisWeek = () => {
 	const now = new Date();
@@ -23,7 +24,7 @@ const getThisWeek = () => {
 };
 
 const HistoryAllView = () => {
-	const weekRange = getThisWeek();
+	const weekRange = useHistoryRange();
 	const currentUser = useSelector(selectCurrentUser);
 	const { data, isLoading, error } = useGetWorkoutHistoryForRangeQuery({
 		userID: currentUser.userID,

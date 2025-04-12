@@ -1,4 +1,9 @@
-import type { Effort } from "../../services/types.ts";
+import type {
+	Effort,
+	WorkoutClient,
+	WorkoutDB,
+	WorkoutHistoryDB,
+} from "../../services/types.ts";
 import type { StrengthSet } from "../strength/types.ts";
 
 export interface HistoryDB {
@@ -106,4 +111,15 @@ export interface HistoryDetailsClient {
 	cardio: CardioHistoryClient[];
 	timed: TimedHistoryClient[];
 	other: OtherHistoryClient[];
+}
+
+export interface SelectedHistoryDB {
+	recentHistory: HistoryEntryDB[];
+	relatedWorkout: WorkoutDB;
+	selectedHistory: HistoryEntryDB;
+}
+export interface SelectedHistoryClient {
+	rece: HistoryEntryClient[];
+	relatedWorkout: WorkoutClient;
+	selectedHistory: HistoryEntryClient;
 }

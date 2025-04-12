@@ -3,8 +3,11 @@ import sprite from "../../assets/icons/main2.svg";
 import styles from "../../css/details/WalkDetails.module.scss";
 import { WalkWorkout } from "../../features/workouts/types";
 import TypeBadge from "../activity/TypeBadge";
+import { WalkHistory } from "../../features/history/types";
+import DetailsBlock from "./DetailsBlock";
+import { formatThousand } from "../../utils/utils_misc";
 
-type Props = { workout: WalkWorkout };
+type Props = { entry: WalkWorkout | WalkHistory };
 
 type DetailsProps = {
 	label: string;
@@ -38,35 +41,22 @@ const DetailsItem = ({ label, icon, children }: DetailsProps) => {
 	);
 };
 
-const WalkDetails = ({ workout }: Props) => {
-	const { workoutName, workoutDesc, steps, miles, pace, duration } = workout;
+const WalkDetails = ({ entry }: Props) => {
+	const { steps = 0, miles = 0, pace = 0, duration } = entry;
+	const mins = duration + ":00";
+	const walkSteps = formatThousand(steps);
+	const walkMiles = miles;
+	const walkPace = pace + `'/sec`;
 	return (
 		<div className={styles.WalkDetails}>
-			<div className={styles.WalkDetails_header}>
-				<TypeBadge activityType="Walk" />
-				<div className={styles.WalkDetails_header_about}>
-					<h3 className={styles.WalkDetails_header_about_name}>
-						{workoutName}
-					</h3>
-					<div className={styles.WalkDetails_header_about_desc}>
-						{workoutDesc}
-					</div>
-				</div>
-			</div>
-			<div className={styles.WalkDetails_main}>
-				<DetailsItem icon="steps" label="Steps: ">
-					<span>{steps}</span>
-				</DetailsItem>
-				<DetailsItem icon="miles" label="Miles: ">
-					<span>{miles}</span>
-				</DetailsItem>
-				<DetailsItem icon="pace" label="Pace: ">
-					<span>{pace}</span>
-				</DetailsItem>
-				<DetailsItem icon="duration" label="Duration: ">
-					<span>{duration} min.</span>
-				</DetailsItem>
-				{/*  */}
+			<div className={styles.WalkDetails_title}>Workout Details:</div>
+			<div className={styles.WalkDetails_details}>
+				<DetailsBlock type="Duration" label="Duration" value={mins} />
+				<DetailsBlock type="Effort" label="Effort" value="Moderate" />
+				<DetailsBlock type="Calories" label="Calories" value={70.22} />
+				<DetailsBlock type="Steps" label="Steps" value={walkSteps} />
+				<DetailsBlock type="Miles" label="Miles" value={walkMiles} />
+				<DetailsBlock type="Pace" label="Pace" value={walkPace} />
 			</div>
 		</div>
 	);

@@ -37,6 +37,7 @@ export interface StretchHistory extends WorkoutHistory {
 }
 export interface CardioHistory extends WorkoutHistory {
 	reps: number;
+	exercise: string;
 }
 export interface TimedHistory extends WorkoutHistory {
 	reps: number;

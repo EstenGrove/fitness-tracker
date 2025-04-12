@@ -6,9 +6,26 @@
 	width: 100%;
 	height: auto;
 
+	&_top {
+		width: 100%;
+		@include rowCenter();
+		font-size: 1.4rem;
+		color: $text1;
+		margin-bottom: 2rem;
+
+		& > b {
+			color: $accentBlue;
+			margin-left: 0.5rem;
+		}
+	}
+
 	&_header {
 		width: 100%;
 		margin-bottom: 1rem;
+		@include colCenter();
+		gap: 0.5rem 0;
+		font-size: 1.5rem;
+		color: $text2;
 		&_title {
 			width: 100%;
 			@include rowCenter();
