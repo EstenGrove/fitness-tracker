@@ -1,3 +1,5 @@
+import { Activity } from "./activity/types";
+
 export type TStatus = "IDLE" | "PENDING" | "FULFILLED" | "REJECTED";
 
 export type TResponseStatus = "SUCCESS" | "FAIL";
@@ -19,4 +21,14 @@ export type AwaitedResponse<T> = TResponse<T>;
 export interface DateRange {
 	startDate: string;
 	endDate: string;
+}
+
+export interface UserRangeParams {
+	userID: string;
+	startDate: string;
+	endDate: string;
+}
+
+export interface UserRangeActivityParams extends UserRangeParams {
+	activityType: Activity;
 }

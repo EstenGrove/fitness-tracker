@@ -35,10 +35,13 @@ app.get("/getRecentMins", async (ctx: Context) => {
 app.get("/getDashboardSummary", async (ctx: Context) => {
 	const { userID, targetDate } = ctx.req.query();
 
-	const summary = {};
+	const summary = await dashboardService.getDashboardSummary(
+		userID,
+		targetDate
+	);
 
 	const resp = getResponseOk({
-		summary: {},
+		summary: summary,
 	});
 
 	return ctx.json(resp);

@@ -9,14 +9,23 @@ export type Effort =
 	| "None";
 
 export interface WorkoutHistory {
+	userID: string;
 	historyID: number;
 	workoutID: number;
+	workoutName: string;
 	workoutDate: string;
 	startTime: string;
 	endTime: string;
 	duration: number;
+	targetDuration: number;
 	effort: Effort;
 	createdDate: string;
+}
+
+export interface WalkHistory extends WorkoutHistory {
+	steps: number;
+	miles: number;
+	pace: number;
 }
 
 export interface StrengthHistory extends WorkoutHistory {

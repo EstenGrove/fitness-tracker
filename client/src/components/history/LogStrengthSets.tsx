@@ -16,20 +16,6 @@ type SetProps = {
 	deleteSet: () => void;
 };
 
-const getSetNumber = (idx: number) => {
-	const num = idx + 1;
-	const map = {
-		1: "1st",
-		2: "2nd",
-		3: "3rd",
-	};
-	if (num < 4) {
-		return map[num as keyof object];
-	} else {
-		return num + "th";
-	}
-};
-
 const SetEntry = ({ idx, set, updateSet, deleteSet }: SetProps) => {
 	const onChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -83,14 +69,15 @@ const SetEntry = ({ idx, set, updateSet, deleteSet }: SetProps) => {
 	);
 };
 
-const LogStrengthSets = ({ workout }: Props) => {
+const LogStrengthSets = ({ workout, onChange }: Props) => {
+	const base = {
+		sets: workout?.sets ?? 4,
+		reps: workout?.reps ?? 20,
+		weight: workout?.weight ?? 20,
+	};
 	const [newSet, setNewSet] = useState<StrengthSet | null>(null);
 	const [workoutSets, setWorkoutSets] = useState<StrengthSet[]>(
-		generateStrengthSets({
-			sets: 4,
-			reps: 20,
-			weight: 20,
-		})
+		generateStrengthSets(base)
 	);
 
 	const addNewSet = () => {
@@ -98,12 +85,15 @@ const LogStrengthSets = ({ workout }: Props) => {
 		const lastID = lastItem.id;
 		const newEntry = {
 			id: lastID + 1,
-			sets: lastItem.sets,
-			reps: lastItem.reps,
-			weight: lastItem.weight,
+			sets: base.sets,
+			reps: base.reps,
+			weight: base.weight,
 		};
+		const newSets = [...workoutSets, newEntry];
 		setNewSet(newEntry);
-		setWorkoutSets([...workoutSets, newEntry]);
+		setWorkoutSets(newSets);
+
+		return onChange && onChange(newSets);
 	};
 
 	const updateSet = (idx: number, set: StrengthSet) => {
@@ -118,11 +108,15 @@ const LogStrengthSets = ({ workout }: Props) => {
 			}
 		});
 		setWorkoutSets(newSets);
+
+		return onChange && onChange(newSets);
 	};
 
 	const deleteSet = (idx: number) => {
 		const newSets = [...workoutSets].filter((_, i) => i !== idx);
 		setWorkoutSets(newSets);
+
+		return onChange && onChange(newSets);
 	};
 
 	return (
@@ -131,6 +125,7 @@ const LogStrengthSets = ({ workout }: Props) => {
 				workoutSets.map((set, idx) => {
 					return (
 						<SetEntry
+							key={set.id}
 							idx={idx}
 							set={set}
 							updateSet={updateSet}
@@ -138,9 +133,9 @@ const LogStrengthSets = ({ workout }: Props) => {
 						/>
 					);
 				})}
-			<button onClick={addNewSet}>Add Set</button>
-			{/*  */}
-			{/*  */}
+			<button onClick={addNewSet} className={styles.AddSet}>
+				Add Set
+			</button>
 		</div>
 	);
 };

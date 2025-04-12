@@ -5,6 +5,7 @@ import type {
 	LogWorkoutPayload,
 	SelectedWorkoutDetailsDB,
 	WorkoutDB,
+	WorkoutScheduleDB,
 } from "../services/types.ts";
 import { getResponseError, getResponseOk } from "../utils/api.ts";
 import {
@@ -13,6 +14,7 @@ import {
 	normalizeWorkoutDetails,
 	normalizeWorkoutInfo,
 	normalizeWorkouts,
+	normalizeWorkoutSchedule,
 } from "../utils/normalize.ts";
 import type { WorkoutInfoDB } from "../modules/types.ts";
 import type {
@@ -22,7 +24,11 @@ import type {
 import type { ActiveWorkoutDB } from "../services/WorkoutsService.ts";
 import { formatDateTime } from "../utils/dates.ts";
 import { subMinutes } from "date-fns";
-import { markWorkoutAsDone } from "../modules/workouts/markAsDone.ts";
+import {
+	markWorkoutAsDone,
+	undoMarkAsDone,
+	type UndoMarkAsDoneBody,
+} from "../modules/workouts/markAsDone.ts";
 
 const app = new Hono();
 
@@ -81,13 +87,18 @@ app.get("/getSelectedWorkout", async (ctx: Context) => {
 	if (selected instanceof Error) {
 		const errResp = getResponseError(selected, {
 			selectedWorkout: selected,
+			schedule: [],
+			history: [],
 		});
 		return ctx.json(errResp);
 	}
+
 	const type = activityType as Activity;
 	const selectedWorkout = normalizeWorkoutInfo(type, selected);
-
-	const resp = getResponseOk({ ...selectedWorkout, activityType });
+	const resp = getResponseOk({
+		...selectedWorkout,
+		activityType,
+	});
 
 	return ctx.json(resp);
 });
@@ -170,9 +181,6 @@ app.post("/markWorkoutAsDone", async (ctx: Context) => {
 	const { userID, workoutID, activityType, workoutDate, workoutLength } =
 		workout;
 
-	console.log("body", body);
-
-	// const data = {};
 	const data = await markWorkoutAsDone(userID, {
 		userID,
 		workoutID,
@@ -180,8 +188,6 @@ app.post("/markWorkoutAsDone", async (ctx: Context) => {
 		workoutDate,
 		workoutLength,
 	});
-
-	console.log("data", data);
 
 	if (data instanceof Error) {
 		const errResp = getResponseError(data, {
@@ -196,6 +202,25 @@ app.post("/markWorkoutAsDone", async (ctx: Context) => {
 		history: [],
 	});
 
+	return ctx.json(resp);
+});
+app.post("/undoMarkWorkoutAsDone", async (ctx: Context) => {
+	const { userID } = ctx.req.query();
+	const body = await ctx.req.json();
+	const payload = body as UndoMarkAsDoneBody;
+
+	const data = await undoMarkAsDone(userID, payload);
+
+	if (data instanceof Error) {
+		const errResp = getResponseError(data, {
+			wasSuccessful: false,
+		});
+		return ctx.json(errResp);
+	}
+
+	const resp = getResponseOk({
+		wasSuccessful: !!data,
+	});
 	return ctx.json(resp);
 });
 

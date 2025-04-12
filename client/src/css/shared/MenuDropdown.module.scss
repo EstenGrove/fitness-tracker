@@ -49,3 +49,15 @@
 		}
 	}
 }
+
+.MenuIcon {
+	width: max-content;
+	height: max-content;
+	cursor: pointer;
+
+	&_icon {
+		width: 2rem;
+		height: 2rem;
+		fill: var(--blueGrey600);
+	}
+}

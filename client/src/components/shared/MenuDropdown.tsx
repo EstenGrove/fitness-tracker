@@ -1,10 +1,24 @@
 import { ReactNode, RefObject, useRef } from "react";
+import sprite from "../../assets/icons/calendar2.svg";
 import styles from "../../css/shared/MenuDropdown.module.scss";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 type Props = {
 	closeMenu: () => void;
 	children?: ReactNode;
+};
+type IconProps = {
+	openMenu: () => void;
+};
+
+const MenuIcon = ({ openMenu }: IconProps) => {
+	return (
+		<div onClick={openMenu} className={styles.MenuIcon}>
+			<svg className={styles.MenuIcon_icon}>
+				<use xlinkHref={`${sprite}#icon-keyboard_control`}></use>
+			</svg>
+		</div>
+	);
 };
 
 const MenuDropdown = ({ closeMenu, children }: Props) => {
@@ -17,4 +31,5 @@ const MenuDropdown = ({ closeMenu, children }: Props) => {
 	);
 };
 
+export { MenuIcon };
 export default MenuDropdown;

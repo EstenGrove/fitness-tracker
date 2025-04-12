@@ -106,3 +106,25 @@ $icon: calc($size - 30%);
 	background-color: rgba(0, 226, 189, 0.1);
 	color: rgb(0, 226, 189);
 }
+
+.ConfirmDone {
+	width: 100%;
+	@include colCenter();
+	margin-top: -1rem;
+
+	&_header {
+		width: 100%;
+		@include colCenter();
+		gap: 1rem 0.6rem;
+
+		&_icon {
+			width: 4rem;
+			height: 4rem;
+			fill: $accentGreen;
+		}
+		&_label {
+			font-size: 1.8rem;
+			color: $accentGreen;
+		}
+	}
+}

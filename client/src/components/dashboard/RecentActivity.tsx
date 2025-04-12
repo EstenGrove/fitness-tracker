@@ -57,7 +57,7 @@ const RecentActivity = ({
 					icon={icon}
 					color="var(--accent-blue)"
 				>
-					{isWeekStart && <NoDataFound icon="time" />}
+					{isWeekStart && <NoDataFound icon="noData" />}
 					{!isWeekStart && <RecentMinsForWeek recentMins={activityData} />}
 				</DetailsCard>
 			</div>

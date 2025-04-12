@@ -1,16 +1,20 @@
 import { useNavigate } from "react-router";
 import sprite from "../../assets/icons/main.svg";
+import sprite2 from "../../assets/icons/calendar2.svg";
 import styles from "../../css/workouts/TodaysWorkout.module.scss";
 import { Activity } from "../../features/activity/types";
 import { TodaysWorkout as ITodaysWorkout } from "../../features/workouts/types";
 import { getActivityStyles } from "../../utils/utils_activity";
 import { formatDate, formatTime, parseAnyTime } from "../../utils/utils_dates";
 import { useRef, useState } from "react";
-import MenuDropdown from "../shared/MenuDropdown";
-import ModalSM from "../shared/ModalSM";
-import ConfirmDialog from "../shared/ConfirmDialog";
 import { useMarkAsDoneMutation } from "../../features/workouts/todaysWorkoutsApi";
 import { MarkAsDoneBody } from "../../utils/utils_workouts";
+import MenuDropdown from "../shared/MenuDropdown";
+import ModalSM from "../shared/ModalSM";
+import ViewWorkout from "./ViewWorkout";
+import ModalLG from "../shared/ModalLG";
+import ViewWorkoutHistory from "../history/ViewWorkoutHistory";
+import ActionOverlay, { ActionButton } from "../ui/ActionOverlay";
 
 type Props = {
 	workout: ITodaysWorkout;
@@ -106,6 +110,29 @@ const getWorkoutTimes = (workout: ITodaysWorkout) => {
 	return `${start} to ${end}`;
 };
 
+type ConfirmDoneProps = {
+	workout: ITodaysWorkout;
+};
+const ConfirmDone = ({ workout }: ConfirmDoneProps) => {
+	return (
+		<div className={styles.ConfirmDone}>
+			<div className={styles.ConfirmDone_header}>
+				<svg className={styles.ConfirmDone_header_icon}>
+					<use xlinkHref={`${sprite2}#icon-check_circle`}></use>
+				</svg>
+				<div className={styles.ConfirmDone_header_label}>
+					Mark Workout as Done!
+				</div>
+			</div>
+			<div className={styles.ConfirmDone_options}>
+				{/* MINS SELECTOR */}
+				{/* EFFORT SELECTOR */}
+				{/* START/END TIME */}
+			</div>
+		</div>
+	);
+};
+
 type ModalType = "VIEW" | "EDIT" | "DELETE" | "COMPLETE" | "CANCEL";
 
 enum EModalType {
@@ -123,10 +150,16 @@ const TodaysWorkout = ({ workout }: Props) => {
 	const { activityType, workoutName, duration } = workout;
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [modalType, setModalType] = useState<ModalType | null>(null);
+	const [completedValues, setCompletedValues] = useState({
+		workoutLength: workout.duration,
+		effort: "Easy",
+		startTime: "",
+		endTime: "",
+	});
 	// calculated/derived
+	const times = getWorkoutTimes(workout);
 	const durationMins: string = getDuration(duration);
 	const isCompleted: boolean = getIsCompleted(workout);
-	const times = getWorkoutTimes(workout);
 	const borderStyles = getBorderStyles(workout);
 
 	const openMenu = () => setShowMenu(true);
@@ -162,6 +195,13 @@ const TodaysWorkout = ({ workout }: Props) => {
 		};
 		await updatedWorkout(body);
 		closeModal();
+	};
+
+	const onChange = (name: string, value: string | number) => {
+		setCompletedValues({
+			...completedValues,
+			[name]: value,
+		});
 	};
 
 	return (
@@ -206,10 +246,19 @@ const TodaysWorkout = ({ workout }: Props) => {
 			</div>
 
 			{modalType === "VIEW" && (
-				<ModalSM onClose={closeModal}>
-					{/*  */}
-					{/*  */}
-				</ModalSM>
+				<ModalLG onClose={closeModal}>
+					{isCompleted ? (
+						<ViewWorkoutHistory
+							workoutID={workout.workoutID}
+							activityType={workout.activityType}
+						/>
+					) : (
+						<ViewWorkout
+							workoutID={workout.workoutID}
+							activityType={workout.activityType}
+						/>
+					)}
+				</ModalLG>
 			)}
 			{modalType === "EDIT" && (
 				<ModalSM onClose={closeModal}>
@@ -218,14 +267,10 @@ const TodaysWorkout = ({ workout }: Props) => {
 				</ModalSM>
 			)}
 			{modalType === "COMPLETE" && (
-				<ConfirmDialog onClose={closeModal} onConfirm={confirmMarkAsDone}>
-					<div className={styles.ConfirmDone}>
-						{/*  */}
-						{/*  */}
-					</div>
-					{/*  */}
-					{/*  */}
-				</ConfirmDialog>
+				<ActionOverlay>
+					<ActionButton onClick={confirmMarkAsDone}>Mark as Done</ActionButton>
+					<ActionButton onClick={closeModal}>Cancel</ActionButton>
+				</ActionOverlay>
 			)}
 			{modalType === "DELETE" && (
 				<ModalSM onClose={closeModal}>

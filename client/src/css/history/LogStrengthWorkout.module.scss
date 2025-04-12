@@ -68,3 +68,48 @@
 		}
 	}
 }
+
+.WorkoutDateStep {
+	width: 100%;
+
+	&_main {
+		width: 100%;
+		padding: 0 2rem;
+
+		&_minsfield {
+			width: 100%;
+			margin-top: 2rem;
+			text-align: center;
+
+			&_mins {
+				width: 100%;
+				@include rowCenter();
+			}
+		}
+
+		&_labels {
+			width: 100%;
+			@include flex_row(space-between, center);
+			margin-top: 2rem;
+			font-size: 1.5rem;
+			color: $text2;
+		}
+
+		&_field {
+			width: 100%;
+			font-size: 1.5rem;
+			color: $text2;
+			margin-top: 2rem;
+		}
+
+		&_split {
+			width: 100%;
+			@include flex_row(flex-start, center);
+			gap: 0 0.5rem;
+			margin: 0 2rem 0 0;
+			font-size: 1.5rem;
+			color: $text2;
+			margin-top: 2rem;
+		}
+	}
+}

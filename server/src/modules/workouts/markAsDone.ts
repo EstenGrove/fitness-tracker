@@ -45,4 +45,27 @@ const markWorkoutAsDone = async (userID: string, details: LogWorkoutBody) => {
 	}
 };
 
-export { markWorkoutAsDone };
+export interface UndoMarkAsDoneBody {
+	userID: string;
+	workoutID: number;
+	activityType: Activity;
+	workoutDate: string;
+}
+
+const undoMarkAsDone = async (userID: string, data: UndoMarkAsDoneBody) => {
+	const payload = {
+		userID,
+		workoutID: data.workoutID,
+		activityType: data.activityType,
+		workoutDate: data.workoutDate,
+	};
+
+	try {
+		const response = await workoutsService.undoMarkAsDone(userID, payload);
+		return response;
+	} catch (error) {
+		return error;
+	}
+};
+
+export { markWorkoutAsDone, undoMarkAsDone };

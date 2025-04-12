@@ -3,6 +3,7 @@ import {
 	endActiveWorkout,
 	fetchActiveWorkout,
 	fetchSelectedWorkout,
+	fetchSelectedWorkoutDetails,
 	fetchTodaysWorkouts,
 	fetchUserWorkoutsForDate,
 	SelectedWorkout,
@@ -50,6 +51,20 @@ const getSelectedWorkout = createAsyncThunk(
 		return data as SelectedWorkout;
 	}
 );
+const getSelectedWorkoutDetails = createAsyncThunk(
+	"workouts/getSelectedWorkoutDetails",
+	async (params: SelectedParams) => {
+		const { userID, workoutID, activityType } = params;
+		const response = (await fetchSelectedWorkoutDetails(
+			userID,
+			workoutID,
+			activityType
+		)) as AwaitedResponse<SelectedWorkout>;
+		const data = response.Data as SelectedWorkout;
+		console.log("response.Data", response.Data);
+		return data as SelectedWorkout;
+	}
+);
 const getActiveWorkout = createAsyncThunk(
 	"workouts/getActiveWorkout",
 	async (params: SelectedParams) => {
@@ -85,7 +100,9 @@ const endWorkout = createAsyncThunk("workouts/endWorkout", async (params) => {
 
 export {
 	getUserWorkoutsByDate,
+	getSelectedWorkoutDetails,
 	getSelectedWorkout,
 	getTodaysWorkouts,
 	getActiveWorkout,
+	endWorkout,
 };

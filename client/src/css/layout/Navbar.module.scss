@@ -12,7 +12,7 @@
 	border-top: $borderLight;
 	overflow-x: hidden;
 	@include glassy();
-	z-index: 9999;
+	z-index: 500;
 
 	&_list {
 		width: 100%;

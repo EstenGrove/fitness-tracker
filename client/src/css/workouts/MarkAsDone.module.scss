@@ -1,0 +1,34 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.MarkAsDone {
+	width: 100%;
+	padding: 1rem 3rem;
+	@include colCenter();
+
+	&_field {
+		width: 100%;
+		display: block;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		margin: 0.5rem 0;
+
+		&_mins {
+			width: 5rem;
+			height: 3rem;
+			border-radius: 0.5rem;
+			border: $borderLight;
+			outline: none;
+			font-size: 1.6rem;
+			background-color: $foreground;
+			color: #fff;
+		}
+		& label {
+			font-size: 1.4rem;
+			color: $text2;
+			margin-bottom: 0.2rem;
+		}
+	}
+}

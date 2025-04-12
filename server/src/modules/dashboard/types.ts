@@ -9,6 +9,17 @@ export interface RecentCaloriesClient {
 	totalCalories: number;
 }
 
+export interface RecentStepsDB {
+	start_date: string;
+	end_date: string;
+	total_steps: number;
+}
+export interface RecentStepsClient {
+	startDate: string;
+	endDate: string;
+	totalSteps: number;
+}
+
 export interface RecentWorkoutsCountDB {
 	start_date: string;
 	end_date: string;
@@ -22,14 +33,18 @@ export interface RecentWorkoutsCountClient {
 }
 
 export interface DashboardSummaryDB {
-	recent_mins: RecentMinsDB[];
-	recent_calories: RecentCaloriesDB;
-	recent_workouts: RecentWorkoutsCountDB;
+	recentSteps: RecentStepsDB;
+	recentMins: RecentMinsDB[];
+	recentCalories: RecentCaloriesDB;
+	recentWorkouts: RecentWorkoutsCountDB;
+	recentWorkoutCount: RecentWorkoutsCountDB;
 }
 export interface DashboardSummaryClient {
+	recentSteps: RecentStepsClient;
 	recentMins: RecentMinsClient[];
 	recentCalories: RecentCaloriesClient;
 	recentWorkouts: RecentWorkoutsCountClient;
+	recentWorkoutCount: RecentWorkoutsCountClient;
 }
 
 export interface RecentMinsDB {

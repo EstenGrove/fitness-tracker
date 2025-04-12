@@ -6,6 +6,7 @@ import {
 	useEffect,
 	RefObject,
 	JSX,
+	ComponentPropsWithoutRef,
 } from "react";
 import sprite from "../../assets/icons/calendar2.svg";
 import styles from "../../css/shared/MultiStepModal.module.scss";
@@ -33,6 +34,21 @@ export interface StepItem {
 type NavButtonProps = {
 	onClick: () => void;
 	isDisabled?: boolean;
+};
+interface HeaderProps {
+	title: string;
+}
+// @ts-expect-error: this is fine
+interface StepHeaderProps
+	extends HeaderProps,
+		ComponentPropsWithoutRef<"header"> {}
+
+const StepHeader = ({ title, ...rest }: StepHeaderProps) => {
+	return (
+		<header className={styles.StepHeader} {...rest}>
+			<h2 className={styles.StepHeader_title}>{title}</h2>
+		</header>
+	);
 };
 
 const PrevButton = ({ onClick }: NavButtonProps) => {
@@ -145,5 +161,7 @@ const MultiStepModal = ({ steps, onClose, onNext, onPrev, onSave }: Props) => {
 		</div>
 	);
 };
+
+export { StepHeader };
 
 export default MultiStepModal;

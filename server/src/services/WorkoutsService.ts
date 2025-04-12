@@ -11,6 +11,7 @@ import type {
 import type { WorkoutInfoDB } from "../modules/types.ts";
 import type { StrengthSet } from "../modules/strength/types.ts";
 import type { WorkoutLogBody } from "../modules/workouts/types.ts";
+import type { UndoMarkAsDoneBody } from "../modules/workouts/markAsDone.ts";
 
 export interface ActiveWorkoutDB {
 	activeWorkout: WorkoutDB;
@@ -27,7 +28,28 @@ class WorkoutsService {
 	constructor(db: Pool) {
 		this.#db = db;
 	}
-
+	async getWorkoutSchedule(
+		userID: string,
+		workoutID: number,
+		activityType: Activity
+	) {
+		try {
+			const query = `SELECT * FROM get_workout_schedule(
+				$1,
+				$2,
+				$3
+			)`;
+			const results = await this.#db.query(query, [
+				userID,
+				workoutID,
+				activityType,
+			]);
+			const row = results?.rows?.[0] as WorkoutScheduleDB;
+			return row;
+		} catch (error) {
+			return error;
+		}
+	}
 	async markAsDone(userID: string, workout: LogWorkoutPayload) {
 		const {
 			workoutID,
@@ -76,6 +98,23 @@ class WorkoutsService {
 			const results = await this.#db.query(query, [userID, workout]);
 			const rows = results?.rows;
 
+			return rows;
+		} catch (error) {
+			return error;
+		}
+	}
+	async undoMarkAsDone(userID: string, data: UndoMarkAsDoneBody) {
+		const { workoutID, activityType, workoutDate } = data;
+		const values = [userID, workoutID, activityType, workoutDate];
+		try {
+			const query = `SELECT * FROM undo_mark_as_done(
+				$1,
+				$2,
+				$3,
+				$4
+			)`;
+			const results = await this.#db.query(query, values);
+			const rows = results?.rows;
 			return rows;
 		} catch (error) {
 			return error;

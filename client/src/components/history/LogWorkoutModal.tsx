@@ -2,8 +2,25 @@ import { useState } from "react";
 import styles from "../../css/history/LogWorkoutModal.module.scss";
 import { useBackgroundBlur } from "../../hooks/useBackgroundBlur";
 import MultiStepModal, { StepItem } from "../shared/MultiStepModal";
+import { Workout } from "../../features/workouts/types";
 
 type Props = {};
+
+type FindWorkoutStepProps = {
+	allWorkouts: Workout[];
+};
+
+const FindWorkoutStep = ({ allWorkouts }: FindWorkoutStepProps) => {
+	// activity types
+	// select one, then
+	return (
+		<div className={styles.FindWorkoutStep}>
+			{/*  */}
+			{/*  */}
+			{/*  */}
+		</div>
+	);
+};
 
 const LogWorkoutModal = ({}: Props) => {
 	useBackgroundBlur();

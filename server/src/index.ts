@@ -22,6 +22,7 @@ app.get("/", (c) => {
 
 app.route("user", allRoutes.user);
 app.route("shared", allRoutes.shared);
+app.route("history", allRoutes.history);
 app.route("activity", allRoutes.activity);
 app.route("workouts", allRoutes.workouts);
 app.route("dashboard", allRoutes.dashboard);

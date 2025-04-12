@@ -11,7 +11,6 @@ import {
 	TodaysWorkout,
 	WalkWorkout,
 	Workout,
-	WorkoutDetails,
 	WorkoutSchedule,
 } from "../features/workouts/types";
 import { currentEnv, workoutApis } from "./utils_env";
@@ -197,6 +196,34 @@ const markWorkoutAsDone = async (
 	}
 };
 
+export interface UndoMarkAsDoneBody {
+	userID: string;
+	workoutID: number;
+	activityType: Activity;
+	workoutDate: string;
+}
+
+export type UndoMarkAsDoneResp = AsyncResponse<{ wasSuccessful: boolean }>;
+
+const undoMarkWorkoutAsDone = async (
+	userID: string,
+	details: UndoMarkAsDoneBody
+): UndoMarkAsDoneResp => {
+	let url = currentEnv.base + workoutApis.markAsDone;
+	url += "?" + new URLSearchParams({ userID });
+
+	try {
+		const response = await fetch(url, {
+			method: "POST",
+			body: JSON.stringify(details),
+		});
+		const request = await response.json();
+		return request;
+	} catch (error) {
+		return error;
+	}
+};
+
 // Workout Logging Utils
 
 interface LogStrengthSet {
@@ -268,7 +295,7 @@ const generateStrengthSets = (
 		const entry: StrengthSet = {
 			id: i + 1,
 			sets: 1,
-			reps: reps + i,
+			reps: reps,
 			weight,
 		};
 		workoutSets.push(entry);
@@ -404,6 +431,7 @@ export {
 	fetchSelectedWorkoutDetails,
 	endActiveWorkout,
 	markWorkoutAsDone,
+	undoMarkWorkoutAsDone,
 	// Logging Utils
 	generateStrengthSets,
 	prepareBaseWorkoutLog,

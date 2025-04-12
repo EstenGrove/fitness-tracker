@@ -13,6 +13,7 @@ import { formatDate } from "../utils/utils_dates";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../features/user/userSlice";
 import { TodaysWorkout } from "../features/workouts/types";
+import WorkoutsSelector from "../components/workouts/WorkoutsSelector";
 
 type ActionItemProps = {
 	icon: string;
@@ -203,8 +204,7 @@ const WorkoutsPage = () => {
 			)}
 			{quickAction === "LogWorkout" && (
 				<ModalSM onClose={closeModal}>
-					{/*  */}
-					{/*  */}
+					<WorkoutsSelector />
 				</ModalSM>
 			)}
 		</div>

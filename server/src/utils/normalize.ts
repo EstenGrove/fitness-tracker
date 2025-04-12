@@ -6,6 +6,7 @@ import type {
 	CardioHistoryClient,
 	CardioHistoryDB,
 } from "../modules/cardio/types.ts";
+import type { DashboardSummaryDB } from "../modules/dashboard/types.ts";
 import type {
 	OtherHistoryClient,
 	OtherHistoryDB,
@@ -525,6 +526,34 @@ const normalizeActiveWorkout = (details: ActiveWorkoutDB) => {
 	};
 };
 
+const normalizeDashboardSummary = (summary: DashboardSummaryDB) => {
+	const { recentSteps, recentCalories, recentWorkouts, recentWorkoutCount } =
+		summary;
+
+	const steps = {
+		startDate: recentSteps.start_date,
+		endDate: recentSteps.end_date,
+		totalSteps: recentSteps.total_steps,
+	};
+	const count = {
+		startDate: recentWorkoutCount.start_date,
+		endDate: recentWorkoutCount.end_date,
+		totalWorkouts: recentWorkoutCount.total_workouts,
+	};
+	const kcals = {
+		startDate: recentCalories.start_date,
+		endDate: recentCalories.end_date,
+		totalWorkouts: recentCalories.total_calories,
+	};
+
+	return {
+		recentSteps: steps,
+		recentCalories: kcals,
+		recentWorkoutCount: count,
+		recentWorkouts: [],
+	};
+};
+
 export {
 	normalizeUser,
 	normalizeSession,
@@ -543,4 +572,5 @@ export {
 	normalizeTodaysWorkouts,
 	normalizeRecentMins,
 	normalizeActiveWorkout,
+	normalizeDashboardSummary,
 };

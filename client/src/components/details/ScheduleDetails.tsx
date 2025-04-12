@@ -6,9 +6,11 @@ import { RepeatType } from "../../features/shared/types";
 import {
 	formatDate,
 	formatTime,
+	MONTHS,
 	parseAnyTime,
-	parseTime,
 } from "../../utils/utils_dates";
+import DetailsBlock from "./DetailsBlock";
+import { getMonthDaySuffix, isRecurring } from "../../utils/utils_recurring";
 
 type Props = {
 	schedule: WorkoutSchedule;
@@ -47,29 +49,86 @@ const getWhenTimes = (schedule: WorkoutSchedule) => {
 	}
 };
 
+const getStart = (start: string) => {
+	const startP = parseAnyTime(start);
+	const startTime = formatTime(startP, "short");
+
+	return startTime;
+};
+
+type RepeatProps = {
+	schedule: WorkoutSchedule;
+};
+const DailyDetails = ({ schedule }: RepeatProps) => {
+	const { interval = 3, startTime } = schedule;
+	const frequency = schedule.frequency as RepeatType;
+	const every = interval > 1 ? `${interval} days` : `${interval} day`;
+	return (
+		<div className={styles.DailyDetails}>
+			<DetailsBlock type="Repeat" label="Repeats" value={frequency} />
+			<DetailsBlock type="Date" label="When" value={startTime} />
+			<DetailsBlock type="Every" label="Every" value={every} />
+		</div>
+	);
+};
+const WeeklyDetails = ({ schedule }: RepeatProps) => {
+	const { byDay, startTime } = schedule;
+	const start = getStart(startTime);
+	const frequency = schedule.frequency as RepeatType;
+	const days = byDay.length + "x/week";
+	return (
+		<div className={styles.WeeklyDetails}>
+			<DetailsBlock type="Repeat" label="Repeats" value={frequency} />
+			<DetailsBlock type="Date" label="When" value={start} />
+			<DetailsBlock type="ByDay" label="Days" value={days} />
+		</div>
+	);
+};
+
+const MonthlyDetails = ({ schedule }: RepeatProps) => {
+	const { byMonthDay = 18, startTime } = schedule;
+	const idx = 18;
+	const frequency = schedule.frequency as RepeatType;
+	const every = idx + getMonthDaySuffix(byMonthDay);
+	return (
+		<div className={styles.MonthlyDetails}>
+			<DetailsBlock type="Repeat" label="Repeats" value={frequency} />
+			<DetailsBlock type="Date" label="When" value={startTime} />
+			<DetailsBlock type="ByDay" label="Each Month" value={every} />
+		</div>
+	);
+};
+const YearlyDetails = ({ schedule }: RepeatProps) => {
+	const { byMonth = 3, byMonthDay = 18, startTime } = schedule;
+	const idx = !byMonthDay || byMonthDay === 0 ? 1 : byMonthDay;
+	const frequency = schedule.frequency as RepeatType;
+	const month = MONTHS[Number(byMonth)].slice(0, 3) + ".";
+	const day = getMonthDaySuffix(idx);
+	const when = month + " " + idx + day;
+	return (
+		<div className={styles.YearlyDetails}>
+			<DetailsBlock type="Repeat" label="Repeats" value={frequency} />
+			<DetailsBlock type="Date" label="When" value={startTime} />
+			<DetailsBlock type="ByDay" label="Every" value={when} />
+		</div>
+	);
+};
+
 const ScheduleDetails = ({ schedule }: Props) => {
-	console.log("schedule", schedule);
 	if (!schedule) return null;
-	console.log("schedule", schedule);
-	const { frequency } = schedule;
-	const when = getWhenTimes(schedule);
-	const whenDates = getWhenDates(schedule);
-	console.log("when", when);
-	console.log("whenDates", whenDates);
+	const frequency = schedule.frequency as RepeatType;
 
 	return (
 		<div className={styles.ScheduleDetails}>
-			<DetailsItem icon="freq" label="Repeats: ">
-				<span>{frequency}</span>
-			</DetailsItem>
-			<DetailsItem icon="start" label="When: ">
-				<span>{when}</span>
-			</DetailsItem>
-			<DetailsItem icon="start" label="From: ">
-				<span>{whenDates}</span>
-			</DetailsItem>
-			{/*  */}
-			{/*  */}
+			<div className={styles.ScheduleDetails_title}>Schedule Details:</div>
+			{isRecurring(frequency) && (
+				<div className={styles.ScheduleDetails_details}>
+					{frequency === "Daily" && <DailyDetails schedule={schedule} />}
+					{frequency === "Weekly" && <WeeklyDetails schedule={schedule} />}
+					{frequency === "Monthly" && <MonthlyDetails schedule={schedule} />}
+					{frequency === "Yearly" && <YearlyDetails schedule={schedule} />}
+				</div>
+			)}
 		</div>
 	);
 };

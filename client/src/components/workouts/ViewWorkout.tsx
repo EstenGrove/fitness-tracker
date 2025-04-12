@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import styles from "../../css/workouts/ViewWorkout.module.scss";
 import { Activity } from "../../features/activity/types";
 import { useSelector } from "react-redux";
@@ -66,6 +66,7 @@ const ViewWorkout = ({ workoutID, activityType }: Props) => {
 					<span>Loading details...</span>
 				</Loader>
 			)}
+
 			{!isLoading && !!workout && (
 				<>
 					{activityType === "Strength" && (
@@ -106,8 +107,6 @@ const ViewWorkout = ({ workoutID, activityType }: Props) => {
 					)}
 				</>
 			)}
-			{/*  */}
-			{/*  */}
 		</div>
 	);
 };

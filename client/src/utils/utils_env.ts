@@ -1,5 +1,5 @@
-const BASE_URL: string = import.meta.env.VITE_API_BASE;
-const PORT: number = 3002;
+export const BASE_URL: string = import.meta.env.VITE_API_BASE;
+export const PORT: number = 3002;
 
 const API_AUTH = {
 	development: {
@@ -40,8 +40,8 @@ const API_AUTH = {
 	},
 	ssl: {
 		assets: import.meta.env.VITE_SSL_API_ASSETS_URL,
-		// base: import.meta.env.VITE_SSL_API_BASE,
-		base: `https://192.168.0.44:${PORT}/api/v1`,
+		base: import.meta.env.VITE_SSL_API_BASE,
+		// base: `https://192.168.0.44:${PORT}/api/v1`,
 		// base: "https://localhost:3000/api/v1",
 		user: import.meta.env.VITE_SSL_API_USER,
 		password: import.meta.env.VITE_SSL_API_USER_PASSWORD,
@@ -79,11 +79,19 @@ const API_ENDPOINTS = {
 		getTodaysWorkouts: "/workouts/getTodaysWorkouts",
 		endWorkout: "/workouts/endWorkout",
 		markAsDone: "/workouts/markWorkoutAsDone",
+		undoMarkAsDone: "/workouts/undoMarkAsDone",
 	},
 	history: {
 		getByID: "/history/getWorkoutHistoryByID",
 		getByDate: "/history/getWorkoutHistoryByDate",
 		getByRange: "/history/getWorkoutHistoryByRange",
+		getByRangeAndActivity: "/history/getWorkoutHistoryByRangeAndType",
+		getStrengthByRange: "/history/getStrengthHistoryByRange",
+		getStretchByRange: "/history/getStretchHistoryByRange",
+		getCardioByRange: "/history/getCardioHistoryByRange",
+		getWalkByRange: "/history/getWalkHistoryByRange",
+		getTimedByRange: "/history/getTimedHistoryByRange",
+		getOtherByRange: "/history/getOtherHistoryByRange",
 	},
 	meds: {
 		logMed: "/meds/logMedication",

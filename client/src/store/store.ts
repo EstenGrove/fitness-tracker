@@ -13,6 +13,7 @@ import historyReducer from "../features/history/historySlice";
 import workoutsReducer from "../features/workouts/workoutsSlice";
 import activityReducer from "../features/activity/activitySlice";
 import dashboardReducer from "../features/dashboard/dashboardSlice";
+import { historyApi } from "../features/history/historyApi";
 
 const store = configureStore({
 	reducer: {
@@ -28,13 +29,15 @@ const store = configureStore({
 		[workoutsApi.reducerPath]: workoutsApi.reducer,
 		[todaysWorkoutsApi.reducerPath]: todaysWorkoutsApi.reducer,
 		[summaryApi.reducerPath]: summaryApi.reducer,
+		[historyApi.reducerPath]: historyApi.reducer,
 	},
 	middleware: (getDefaultMiddleware) => {
 		return getDefaultMiddleware()
 			.concat(activityApi.middleware)
 			.concat(sharedApi.middleware)
 			.concat(workoutsApi.middleware)
-			.concat(todaysWorkoutsApi.middleware);
+			.concat(todaysWorkoutsApi.middleware)
+			.concat(historyApi.middleware);
 	},
 });
 

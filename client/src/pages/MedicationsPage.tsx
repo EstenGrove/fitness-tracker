@@ -1,17 +1,14 @@
-import { useState } from "react";
+import { useWeekHeader } from "../hooks/useWeekHeader";
+import styles from "../css/pages/MedicationsPage.module.scss";
 import PageHeader from "../components/layout/PageHeader";
 import WeeklyHeader from "../components/layout/WeeklyHeader";
-import styles from "../css/pages/MedicationsPage.module.scss";
-import { formatDate } from "../utils/utils_dates";
 
 const MedicationsPage = () => {
-	const baseDate = formatDate(new Date(), "url");
-	const [selectedDate, setSelectedDate] = useState<string>(baseDate);
+	const base = new Date();
+	const baseDate: string = base.toString();
+	const header = useWeekHeader(baseDate);
 
-	const onSelect = (date: Date | string) => {
-		const selected = formatDate(date, "url");
-		setSelectedDate(selected);
-	};
+	console.log("baseDate", baseDate);
 
 	return (
 		<div className={styles.MedicationsPage}>
@@ -20,8 +17,8 @@ const MedicationsPage = () => {
 			</div>
 			<WeeklyHeader
 				baseDate={baseDate}
-				onSelect={onSelect}
-				selectedDate={selectedDate}
+				onSelect={header.selectDate}
+				selectedDate={header.selectedDate}
 			/>
 			<div className={styles.MedicationsPage_main}>
 				{/*  */}

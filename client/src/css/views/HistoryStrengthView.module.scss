@@ -1,0 +1,26 @@
+@import "../../sass/variables";
+@import "../../sass/mixins";
+@import "../../sass/custom";
+
+.HistoryStrengthView {
+	width: 100%;
+
+	&_main {
+		width: 100%;
+		@include colCenter();
+		gap: 1rem 0;
+	}
+}
+
+.ActionButton {
+	width: 80%;
+	// height: 4rem;
+	padding: 1.8rem 2.5rem;
+	border-radius: 5rem;
+	font-size: 2rem;
+	color: #fff;
+	background-color: $foreground;
+	border: none;
+	outline: none;
+	@include rowCenter();
+}
